@@ -1,4 +1,4 @@
-package test;
+package app;
 
 import com.mongodb.MongoClient;
 import org.mongodb.morphia.Datastore;

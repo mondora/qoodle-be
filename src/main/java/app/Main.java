@@ -1,5 +1,5 @@
 
-package test;
+package app;
 import static spark.Spark.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -96,7 +96,7 @@ public class Main {
         Inizialization init = new Inizialization(from, how, head);
         init.enableCORS();
 
-        final Datastore datastore = init.createDatastore("test", "morphia_example");
+        final Datastore datastore = init.createDatastore("app", "morphia_example");
 
         datastore.ensureIndexes();
 

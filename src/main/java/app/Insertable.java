@@ -1,4 +1,4 @@
-package test;
+package app;
 
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
