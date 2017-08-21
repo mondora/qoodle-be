@@ -1,5 +1,5 @@
 
-package app;
+package org.mondora.qoodle;
 import static spark.Spark.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,22 +16,22 @@ public class Main {
 
     private static void saveQoodle(String targetId, Request req, Gson gson, Datastore datastore) {
 
-        final Qoodle primoQoodle = gson.fromJson(req.body().toString(), Qoodle.class);
+        final org.mondora.qoodle.Qoodle primoQoodle = gson.fromJson(req.body().toString(), org.mondora.qoodle.Qoodle.class);
 
         primoQoodle.insert(targetId, datastore);
     }
 
     private static String getList(Datastore datastore, Gson gson) {
-        final Query<Qoodle> primaQuery = datastore.createQuery(Qoodle.class).retrievedFields(true, "qoodleId","title", "description","closingDate", "voList");
-        final List<Qoodle> sal = primaQuery.asList();
+        final Query<org.mondora.qoodle.Qoodle> primaQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).retrievedFields(true, "qoodleId","title", "description","closingDate", "voList");
+        final List<org.mondora.qoodle.Qoodle> sal = primaQuery.asList();
 
 
-        ArrayList<Qoodles> qList = new ArrayList<>();
+        ArrayList<org.mondora.qoodle.Qoodles> qList = new ArrayList<>();
 
-        for ( Qoodle x : sal)
+        for ( org.mondora.qoodle.Qoodle x : sal)
         {
             qList.add(
-                    new Qoodles
+                    new org.mondora.qoodle.Qoodles
                             (x.getqoodleId(),
                                     x.getTitle(),
                                     x.getDescription() ,
@@ -47,12 +47,12 @@ public class Main {
     private static String getQoodleView(Gson gson,Datastore datastore, Request req) {
         long id = Long.parseLong( req.params(":id"));
 
-        final Query<Qoodle> primaQuery = datastore.createQuery(Qoodle.class).filter("qoodleId ==", id).retrievedFields(true, "qoodleId","title", "description","closingDate", "qeList");
-        final Qoodle targetQoodle = primaQuery.limit(1).get();
+        final Query<org.mondora.qoodle.Qoodle> primaQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", id).retrievedFields(true, "qoodleId","title", "description","closingDate", "qeList");
+        final org.mondora.qoodle.Qoodle targetQoodle = primaQuery.limit(1).get();
 
 
-        QoodleView qView =
-                new QoodleView(
+        org.mondora.qoodle.QoodleView qView =
+                new org.mondora.qoodle.QoodleView(
 
                         targetQoodle.getQoodleId(),
                         targetQoodle.getTitle(),
@@ -65,8 +65,8 @@ public class Main {
     }
 
     private static String getQoodleElements( Gson gson, Datastore datastore) {
-        final Query<Qoodle> primaQuery = datastore.createQuery(Qoodle.class).retrievedFields(true, "qeList");
-        final ArrayList<QoodleElement> templateExample = primaQuery.asList().get(0).getQeList();
+        final Query<org.mondora.qoodle.Qoodle> primaQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).retrievedFields(true, "qeList");
+        final ArrayList<org.mondora.qoodle.QoodleElement> templateExample = primaQuery.asList().get(0).getQeList();
 
         return gson.toJson(templateExample);
     }
@@ -75,12 +75,12 @@ public class Main {
 
 
     private static Object submitVotes(Datastore datastore, Gson gson, Request req) {
-        final VoteRequest completeObject = gson.fromJson(req.body().toString(), VoteRequest.class);
-        final Vote newVote = new Vote(completeObject.getUserId(), completeObject.getVotes());
+        final org.mondora.qoodle.VoteRequest completeObject = gson.fromJson(req.body().toString(), org.mondora.qoodle.VoteRequest.class);
+        final org.mondora.qoodle.Vote newVote = new org.mondora.qoodle.Vote(completeObject.getUserId(), completeObject.getVotes());
 
 
-        final Query<Qoodle> updateQuery = datastore.createQuery(Qoodle.class).filter("qoodleId ==", completeObject.getQoodleId());
-        final UpdateOperations<Qoodle> updateQoodleVote = datastore.createUpdateOperations(Qoodle.class).add("voList", newVote);
+        final Query<org.mondora.qoodle.Qoodle> updateQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", completeObject.getQoodleId());
+        final UpdateOperations<org.mondora.qoodle.Qoodle> updateQoodleVote = datastore.createUpdateOperations(org.mondora.qoodle.Qoodle.class).add("voList", newVote);
 
         datastore.update(updateQuery, updateQoodleVote);
 
@@ -93,10 +93,10 @@ public class Main {
         final String head= "*";
 
 
-        Inizialization init = new Inizialization(from, how, head);
+        org.mondora.qoodle.Inizialization init = new org.mondora.qoodle.Inizialization(from, how, head);
         init.enableCORS();
 
-        final Datastore datastore = init.createDatastore("app", "morphia_example");
+        final Datastore datastore = init.createDatastore("org.mondora.qoodle", "morphia_example");
 
         datastore.ensureIndexes();
 

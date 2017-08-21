@@ -1,4 +1,4 @@
-package app;
+package org.mondora.qoodle;
 
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;

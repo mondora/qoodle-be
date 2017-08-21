@@ -1,5 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
 .gradle/
-build
+build/
 out/
+.idea/
 qoodle-be.iml

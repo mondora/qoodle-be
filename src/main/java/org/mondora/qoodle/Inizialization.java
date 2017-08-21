@@ -1,4 +1,4 @@
-package app;
+package org.mondora.qoodle;
 
 import com.mongodb.MongoClient;
 import org.mongodb.morphia.Datastore;

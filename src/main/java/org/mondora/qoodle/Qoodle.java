@@ -1,4 +1,4 @@
-package app;
+package org.mondora.qoodle;
 
 
 import com.google.gson.annotations.SerializedName;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 
 @Entity
-public class Qoodle extends Insertable{
+public class Qoodle extends org.mondora.qoodle.Insertable {
 
     @Id
     private long qoodleId ;
@@ -24,12 +24,12 @@ public class Qoodle extends Insertable{
     private String closingDate;
 
     @SerializedName("qeList")
-    private ArrayList<QoodleElement> qeList;
+    private ArrayList<org.mondora.qoodle.QoodleElement> qeList;
 
     @SerializedName("voList")
-    private ArrayList<Vote> voList = new ArrayList<>();
+    private ArrayList<org.mondora.qoodle.Vote> voList = new ArrayList<>();
 
-    public Qoodle(String title, String description, String d, ArrayList<QoodleElement> qeList) {
+    public Qoodle(String title, String description, String d, ArrayList<org.mondora.qoodle.QoodleElement> qeList) {
         this.qoodleId = 0L;
         this.title = title;
         this.description = description;
@@ -77,7 +77,7 @@ public class Qoodle extends Insertable{
         this.qoodleId = qoodleId;
     }
 
-    public ArrayList<QoodleElement> getQeList() {
+    public ArrayList<org.mondora.qoodle.QoodleElement> getQeList() {
         return qeList;
     }
 
@@ -113,11 +113,11 @@ public class Qoodle extends Insertable{
     }
 
 
-    public ArrayList<Vote> getVoList() {
+    public ArrayList<org.mondora.qoodle.Vote> getVoList() {
         return voList;
     }
 
-    public void setVoList(ArrayList<Vote> voList) {
+    public void setVoList(ArrayList<org.mondora.qoodle.Vote> voList) {
         this.voList = voList;
     }
 }
