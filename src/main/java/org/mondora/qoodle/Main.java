@@ -94,7 +94,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        final String from= "http://localhost:3000";
+        final String from= "http://54.77.36.67:3000";
         final String how= "get";
         final String head= "*";
 
@@ -102,7 +102,7 @@ public class Main {
         org.mondora.qoodle.Inizialization init = new org.mondora.qoodle.Inizialization(from, how, head);
         init.enableCORS();
 
-        final Datastore datastore = init.createDatastore("org.mondora.qoodle", "morphia_example");
+        final Datastore datastore = init.createDatastore("org.mondora.qoodle", "qoodledb");
 
         datastore.ensureIndexes();
 
