@@ -94,7 +94,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        final String from= "http://localhost:8080";
+        final String from= "http://localhost:3000";
         final String how= "get";
         final String head= "*";
 
