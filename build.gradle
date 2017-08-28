@@ -1,11 +1,13 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
-mainClassName = 'app.Main'
+mainClassName = 'org.mondora.qoodle.Main'
+
 
 repositories {
     mavenCentral()
 }
+
 
 dependencies {
     compile 'com.google.code.gson:gson:2.6.2'
@@ -15,3 +17,16 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'org.mongodb.morphia:morphia:1.2.1'
 }
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+    dependencies {
+        classpath "com.github.jengelman.gradle.plugins:shadow:2.0.1"
+    }
+}
+
+apply plugin: "com.github.johnrengelman.shadow"
