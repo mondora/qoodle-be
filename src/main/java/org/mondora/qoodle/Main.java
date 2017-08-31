@@ -1,7 +1,6 @@
 package org.mondora.qoodle;
 
 
-
 import static spark.Spark.*;
 
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class Main {
     }
 
     private static String getList(Datastore datastore, Gson gson) {
-        final Query<org.mondora.qoodle.Qoodle> primaQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).retrievedFields(true, "qoodleId","title", "description","closingDate", "voList");
+        final Query<org.mondora.qoodle.Qoodle> primaQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).retrievedFields(true, "qoodleId","title", "description","closingDate", "voList", "backgroundImage");
         final List<org.mondora.qoodle.Qoodle> sal = primaQuery.asList();
 
 
@@ -40,8 +39,10 @@ public class Main {
             x.getTitle(),
             x.getDescription() ,
             x.getVoList().size(),
-            x.getClosingDate())
+            x.getClosingDate(),
+            x.getBackgroundImage())
             );
+            System.out.println(x.getBackgroundImage());
 
         }
 
@@ -113,21 +114,6 @@ public class Main {
 
         try{
 
-
-          /*  Path path = Paths.get("/home/jab/Immagini/rick_tribute.png");
-            byte[] data = Files.readAllBytes(path);
-
-            Image rick = new Image(data);
-
-
-            datastore.save(rick);
-
-            final Query<org.mondora.qoodle.Image> primaQuery = datastore.createQuery(org.mondora.qoodle.Image.class);
-            final org.mondora.qoodle.Image ei = primaQuery.asList().get(0);
-
-            get("/image", (req, res) -> gson.toJson(ei.getImg().toString()));
-
-            System.out.println(ei);*/
 
 
             Gson gson = new Gson();

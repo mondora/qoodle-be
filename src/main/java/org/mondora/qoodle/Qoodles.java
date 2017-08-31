@@ -1,4 +1,5 @@
 package org.mondora.qoodle;
+import com.google.gson.annotations.SerializedName;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
@@ -16,6 +17,8 @@ public class Qoodles extends Insertable{
 
     private int partecipants;
     private String closingDate;
+    @SerializedName("backgroundImage")
+    private String backgroundImage;
 
     public Qoodles() {
 
@@ -24,25 +27,29 @@ public class Qoodles extends Insertable{
         this.description = "defDescription";
         this.partecipants = 0;
         this.closingDate = "";
+        this.backgroundImage = "";
+
     }
 
-    public Qoodles( String title, String description, int partecipants, String closingDate) {
+    public Qoodles( String title, String description, int partecipants, String closingDate, String backgroundImage) {
         this.qoodlesId = 0;
         this.title = title;
         this.description = description;
         this.partecipants = partecipants;
         this.closingDate = closingDate;
+        this.backgroundImage = backgroundImage;
     }
 
 
 
 
-    public Qoodles(long qoodlesId, String title, String description, int partecipants, String closingDate) {
+    public Qoodles(long qoodlesId, String title, String description, int partecipants, String closingDate, String backgroundImage) {
         this.qoodlesId = qoodlesId;
         this.title = title;
         this.description = description;
         this.partecipants = partecipants;
         this.closingDate = closingDate;
+        this.backgroundImage = backgroundImage;
     }
 
 
@@ -87,6 +94,17 @@ public class Qoodles extends Insertable{
         this.closingDate = closingDate;
     }
 
+    @Override
+    public String toString() {
+        return "Qoodles{" +
+                "qoodlesId=" + qoodlesId +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", partecipants=" + partecipants +
+                ", closingDate='" + closingDate + '\'' +
+                ", backgroundImage='" + backgroundImage + '\'' +
+                '}';
+    }
 
     @Override
     public void insert( String name, Datastore ds) {
