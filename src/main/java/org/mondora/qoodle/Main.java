@@ -42,7 +42,7 @@ public class Main {
             x.getClosingDate(),
             x.getBackgroundImage())
             );
-            System.out.println(x.getBackgroundImage());
+
 
         }
 
