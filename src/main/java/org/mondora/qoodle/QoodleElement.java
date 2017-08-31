@@ -16,7 +16,7 @@ public class QoodleElement extends Insertable{
     private String coinoption = "€";
     private float price;
     private int counter;
-    private String imgUrl;
+    private String img64;
 
     public QoodleElement() {
         this.elId = 0;
@@ -27,51 +27,51 @@ public class QoodleElement extends Insertable{
         this.coinoption = "";
         this.price = 0.0f;
         this.counter = 0;
-        this.imgUrl = "";
+        this.img64 = "";
     }
 
 
-    public QoodleElement(long elId, String name, String umoption, String coinoption, float price, int counter, String imgUrl) {
+    public QoodleElement(long elId, String name, String umoption, String coinoption, float price, int counter, String img64) {
         this.elId = elId;
         this.name = name;
         this.umoption = umoption;
         this.coinoption = coinoption;
         this.price = price;
         this.counter = counter;
-        this.imgUrl = imgUrl;
+        this.img64 = img64;
     }
 
 
-    public QoodleElement(String name, String umoption, String coinoption, float price, int counter, String imgUrl) {
+    public QoodleElement(String name, String umoption, String coinoption, float price, int counter, String img64) {
         this.name = name;
         this.umoption = umoption;
         this.coinoption = coinoption;
         this.price = price;
         this.counter = counter;
-        this.imgUrl = imgUrl;
+        this.img64 = img64;
     }
 
-    public QoodleElement(long elId, String name, String umoption, float price, int counter, String imgUrl) {
+    public QoodleElement(long elId, String name, String umoption, float price, int counter, String img64) {
         this.elId = elId;
         this.name = name;
         this.umoption = umoption;
         this.price = price;
         this.counter = counter;
-        this.imgUrl = imgUrl;
+        this.img64 = img64;
     }
 
-    public QoodleElement(long elId, String name, String umoption, String coinoption, int counter, String imgUrl) {
+    public QoodleElement(long elId, String name, String umoption, String coinoption, int counter, String img64) {
         this.elId = elId;
         this.name = name;
         this.umoption = umoption;
         this.coinoption = coinoption;
         this.price = 0.0f;
         this.counter = counter;
-        this.imgUrl = imgUrl;
+        this.img64 = img64;
     }
 
 
-    public QoodleElement(long elId, String name, int min, int max, String umoption, String coinoption, float price, int counter, String imgUrl) {
+    public QoodleElement(long elId, String name, int min, int max, String umoption, String coinoption, float price, int counter, String img64) {
         this.elId = elId;
         this.name = name;
         this.min = min;
@@ -80,10 +80,10 @@ public class QoodleElement extends Insertable{
         this.coinoption = coinoption;
         this.price = price;
         this.counter = counter;
-        this.imgUrl = imgUrl;
+        this.img64 = img64;
     }
 
-    public QoodleElement(String name, int min, int max, String umoption, String coinoption, float price, int counter, String imgUrl) {
+    public QoodleElement(String name, int min, int max, String umoption, String coinoption, float price, int counter, String img64) {
         this.name = name;
         this.min = min;
         this.max = max;
@@ -91,9 +91,9 @@ public class QoodleElement extends Insertable{
         this.coinoption = coinoption;
         this.price = price;
         this.counter = counter;
-        this.imgUrl = imgUrl;
+        this.img64 = img64;
     }
-    public QoodleElement(String name, int min, int max, String coinoption, float price, int counter, String imgUrl) {
+    public QoodleElement(String name, int min, int max, String coinoption, float price, int counter, String img64) {
         this.name = name;
         this.min = min;
         this.max = max;
@@ -101,7 +101,7 @@ public class QoodleElement extends Insertable{
         this.coinoption = coinoption;
         this.price = price;
         this.counter = counter;
-        this.imgUrl = imgUrl;
+        this.img64 = img64;
     }
 
 
@@ -169,12 +169,12 @@ public class QoodleElement extends Insertable{
         this.counter = counter;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
+    public String getImg64() {
+        return img64;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setImg64(String img64) {
+        this.img64 = img64;
     }
 
 
@@ -189,7 +189,7 @@ public class QoodleElement extends Insertable{
                 ", coinoption='" + coinoption + '\'' +
                 ", price=" + price +
                 ", counter=" + counter +
-                ", imgUrl='" + imgUrl + '\'' +
+                ", img64='" + img64 + '\'' +
                 '}';
     }
 

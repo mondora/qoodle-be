@@ -1,6 +1,9 @@
-
 package org.mondora.qoodle;
+
+
+
 import static spark.Spark.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +13,7 @@ import org.mongodb.morphia.query.Query;
 import com.google.gson.Gson;
 import org.mongodb.morphia.query.UpdateOperations;
 import spark.Request;
+
 
 
 public class Main {
@@ -31,12 +35,12 @@ public class Main {
         for ( org.mondora.qoodle.Qoodle x : sal)
         {
             qList.add(
-                    new org.mondora.qoodle.Qoodles
-                            (x.getqoodleId(),
-                                    x.getTitle(),
-                                    x.getDescription() ,
-                                    x.getVoList().size(),
-                                    x.getClosingDate())
+            new org.mondora.qoodle.Qoodles
+            (x.getqoodleId(),
+            x.getTitle(),
+            x.getDescription() ,
+            x.getVoList().size(),
+            x.getClosingDate())
             );
 
         }
@@ -52,13 +56,13 @@ public class Main {
 
 
         org.mondora.qoodle.QoodleView qView =
-                new org.mondora.qoodle.QoodleView(
+        new org.mondora.qoodle.QoodleView(
 
-                        targetQoodle.getQoodleId(),
-                        targetQoodle.getTitle(),
-                        targetQoodle.getDescription() ,
-                        targetQoodle.getClosingDate(),
-                        targetQoodle.getQeList()
+        targetQoodle.getQoodleId(),
+        targetQoodle.getTitle(),
+        targetQoodle.getDescription() ,
+        targetQoodle.getClosingDate(),
+        targetQoodle.getQeList()
                 );
 
         return gson.toJson(qView);
@@ -72,7 +76,7 @@ public class Main {
             return gson.toJson(templateExample);
         }
         else
-            {
+        {
                 return "{[]}";
             }
     }
@@ -108,7 +112,29 @@ public class Main {
 
 
         try{
+
+
+          /*  Path path = Paths.get("/home/jab/Immagini/rick_tribute.png");
+            byte[] data = Files.readAllBytes(path);
+
+            Image rick = new Image(data);
+
+
+            datastore.save(rick);
+
+            final Query<org.mondora.qoodle.Image> primaQuery = datastore.createQuery(org.mondora.qoodle.Image.class);
+            final org.mondora.qoodle.Image ei = primaQuery.asList().get(0);
+
+            get("/image", (req, res) -> gson.toJson(ei.getImg().toString()));
+
+            System.out.println(ei);*/
+
+
             Gson gson = new Gson();
+
+
+
+
 
             //LIST
             get("/qoodles", (req, res) ->getList(datastore, gson));

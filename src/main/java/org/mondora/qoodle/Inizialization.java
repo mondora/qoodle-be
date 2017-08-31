@@ -66,7 +66,7 @@ public class Inizialization {
             if(request.url().contains("localhost"))
                 response.header("Access-Control-Allow-Origin", "http://localhost:3000");
             else
-            response.header("Access-Control-Allow-Origin", this.from);
+                response.header("Access-Control-Allow-Origin", this.from);
             response.header("Access-Control-Request-Method", this.how);
             response.header("Access-Control-Allow-Headers", this.head);
             response.type("application/json");
