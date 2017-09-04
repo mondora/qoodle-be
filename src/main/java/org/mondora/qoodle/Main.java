@@ -98,6 +98,31 @@ public class Main {
         return req.body();
     }
 
+
+
+    private static String showUserToken(Request req)
+    {
+        Gson gson = new Gson();
+
+        //System.out.println("user token  è : " + req.body());
+        //System.out.println("userIdtoken è : " + req.body());
+
+        org.mondora.qoodle.AuthObject recivedObject = gson.fromJson(req.body(), org.mondora.qoodle.AuthObject.class);
+
+        String googleId = recivedObject.getId_token();
+        String clientId = recivedObject.getId_client();
+
+        System.out.println("clientId  è : " + recivedObject.getId_client());
+
+
+
+
+        return ("  email è  : " + Checker.verify(googleId, clientId));
+    }
+
+
+
+
     public static void main(String[] args) {
         final String from= "http://54.77.36.67:3000";
         final String how= "get";
@@ -116,10 +141,11 @@ public class Main {
 
 
 
+
             Gson gson = new Gson();
 
-
-
+            //AUTHENTICATION
+            post("/token", (req, res) -> showUserToken(req));
 
 
             //LIST
