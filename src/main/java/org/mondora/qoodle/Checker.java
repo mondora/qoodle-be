@@ -2,11 +2,9 @@
 
 package org.mondora.qoodle;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.util.Arrays;
+
 import java.util.Collections;
-import java.util.List;
+
 
 
 
@@ -27,7 +25,7 @@ public class Checker {
     }
 
 
-    public static String verify(String googleId, String clientId) {
+    public static String verify(String googleId, String clientId, Gson gson) {
 
         NetHttpTransport transport = new NetHttpTransport();
         GsonFactory jsonFactory = new GsonFactory();
@@ -50,23 +48,18 @@ public class Checker {
             if (idToken != null) {
                 Payload payload = idToken.getPayload();
 
-                // Print user identifier
                 String userId = payload.getSubject();
-                System.out.println("User ID: " + userId);
-
-                // Get profile information from payload
                 String email = payload.getEmail();
-                boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
-                String name = (String) payload.get("name");
                 String pictureUrl = (String) payload.get("picture");
-                String locale = (String) payload.get("locale");
-                String familyName = (String) payload.get("family_name");
-                String givenName = (String) payload.get("given_name");
+                String name = (String) payload.get("name");
 
+                boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
 
-                UserInfo user = new UserInfo(givenName, email, pictureUrl);
+                System.out.println("User ID: " + userId);
+                System.out.println( emailVerified ? "email verificata": "non verificata");
 
-                Gson gson = new Gson();
+                UserInfo user = new UserInfo(userId, name, email, pictureUrl);
+
                 risposta = gson.toJson(user);
 
 

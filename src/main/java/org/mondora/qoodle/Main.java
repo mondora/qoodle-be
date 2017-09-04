@@ -104,9 +104,6 @@ public class Main {
     {
         Gson gson = new Gson();
 
-        //System.out.println("user token  è : " + req.body());
-        //System.out.println("userIdtoken è : " + req.body());
-
         org.mondora.qoodle.AuthObject recivedObject = gson.fromJson(req.body(), org.mondora.qoodle.AuthObject.class);
 
         String googleId = recivedObject.getId_token();
@@ -117,7 +114,7 @@ public class Main {
 
 
 
-        return ("  email è  : " + Checker.verify(googleId, clientId));
+        return (Checker.verify(googleId, clientId, gson));
     }
 
 
