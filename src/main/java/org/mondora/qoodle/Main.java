@@ -205,7 +205,9 @@ public class Main {
 
 
 
-    return "ciao";
+        Details d = new Details(targetQoodle.getTitle(), details);
+
+    return gson.toJson(d);
 
     }
 
