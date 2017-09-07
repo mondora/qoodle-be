@@ -102,18 +102,13 @@ public class Main {
 
 
 
-    private static String showUserToken(Request req)
+    private static String showUserToken(Gson gson, Request req)
     {
-        Gson gson = new Gson();
 
         org.mondora.qoodle.AuthObject recivedObject = gson.fromJson(req.body(), org.mondora.qoodle.AuthObject.class);
 
         String googleId = recivedObject.getId_token();
         String clientId = recivedObject.getId_client();
-
-        System.out.println("clientId  è : " + recivedObject.getId_client());
-
-
 
 
         return (Checker.verify(googleId, clientId, gson));
@@ -140,6 +135,7 @@ public class Main {
 
         final ArrayList<SingleVote> allVotes = new ArrayList<>() ;
 
+        //toocomplicated
         for( Vote v : targetQoodle.getVoList()) {
             for (int i = 0; i < v.getVotes().size(); i++) {
                 allVotes.add(new SingleVote(v.getUserId(), v.getVotes().get(i)));
@@ -156,7 +152,7 @@ public class Main {
             //System.out.println("VOTOall  " + j + "va nel posto" + i%nrElements +  "  " + allVotes.get(j));
             details[ (j % nrElements) ].addWho(allVotes.get(j));
         }
-        
+
         Details d = new Details(targetQoodle.getTitle(), details);
 
     return gson.toJson(d);
@@ -188,19 +184,17 @@ public class Main {
             Gson gson = new Gson();
 
 
+            //DETAILS
+            get("/details/:id", (req, res) -> getDetails(datastore, gson, req) );
 
 
             //AUTHENTICATION
-            post("/token", (req, res) -> showUserToken(req));
+            post("/token", (req, res) -> showUserToken(gson, req));
 
 
             //LIST
             get("/qoodles", (req, res) ->getList(datastore, gson));
 
-
-
-            //DETAILS
-            get("/details/:id", (req, res) -> getDetails(datastore, gson, req) );
 
             //VIEW
 
