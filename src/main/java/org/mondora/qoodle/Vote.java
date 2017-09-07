@@ -7,7 +7,7 @@ import org.mongodb.morphia.annotations.Id;
 import java.util.ArrayList;
 
 @Entity
-public class Vote {
+public class Vote  {
     @Id
     @SerializedName("username")
     private String userId;
@@ -47,5 +47,16 @@ public class Vote {
                 "userId='" + userId + '\'' +
                 ", votes=" + votes +
                 '}';
+    }
+
+
+    @Override//ok
+    public boolean equals(Object o) {
+        boolean test = false;
+        if(o instanceof Vote) {
+            Vote v = (Vote) o;
+            test = ( v.getUserId().equals(this.getUserId()));
+        }
+        return test;
     }
 }

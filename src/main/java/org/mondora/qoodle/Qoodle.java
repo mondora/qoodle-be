@@ -50,7 +50,12 @@ public class Qoodle extends org.mondora.qoodle.Insertable {
 
     }
 
-
+    public Qoodle(long qoodleId, String title, ArrayList<QoodleElement> qeList,  ArrayList<Vote> voList) {
+        this.qoodleId = qoodleId;
+        this.title = title;
+        this.qeList = qeList;
+        this.voList =voList;
+    }
 
     public Qoodle(String s, long i )
     {
@@ -131,5 +136,18 @@ public class Qoodle extends org.mondora.qoodle.Insertable {
         this.setQoodleId(nuovoId);
         ds.save(this);
 
+    }
+
+    @Override
+    public String toString() {
+        return "Qoodle{" +
+                "qoodleId=" + qoodleId +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", closingDate='" + closingDate + '\'' +
+                ", qeList=" + qeList +
+                ", voList=" + voList +
+                ", backgroundImage='" + backgroundImage + '\'' +
+                '}';
     }
 }
