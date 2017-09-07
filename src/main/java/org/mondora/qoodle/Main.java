@@ -89,22 +89,9 @@ public class Main {
         final org.mondora.qoodle.VoteRequest completeObject = gson.fromJson(req.body().toString(), org.mondora.qoodle.VoteRequest.class);
         final org.mondora.qoodle.Vote newVote = new org.mondora.qoodle.Vote(completeObject.getUserId(), completeObject.getVotes());
 
-
-
-
-        /*final Query<org.mondora.qoodle.Qoodle> testQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", completeObject.getQoodleId());
-        ArrayList<Vote> listaVoti = testQuery.limit(1).get().getVoList();
-
-        System.out.println(listaVoti.contains(newVote)? "voto già esistente": "voto non ancora effettuato");
-
-
-        System.out.println(newVote.equals(new Vote("asciugamano42@gmail.com", new ArrayList<Integer>() )) );
-        */
-
         final Query<org.mondora.qoodle.Qoodle> updateQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", completeObject.getQoodleId());
-        if(!updateQuery.get().getVoList().contains(newVote)) {
-           // System.out.println(updateQuery.limit(1).get().getVoList().contains(newVote)? "voto già esistente": "voto non ancora effettuato");
 
+        if(!updateQuery.get().getVoList().contains(newVote)) {
             final UpdateOperations<org.mondora.qoodle.Qoodle> updateQoodleVote = datastore.createUpdateOperations(org.mondora.qoodle.Qoodle.class).add("voList", newVote);
             datastore.update(updateQuery, updateQoodleVote);
         }
@@ -144,36 +131,11 @@ public class Main {
         final org.mondora.qoodle.Qoodle targetQoodle = primaQuery.limit(1).get();
 
 
-        System.out.println(targetQoodle );
-
-
-     /*   final String [] nomi = new String [targetQoodle.getQeList().size()] ;
-
-        for ( int i = 0 ; i < targetQoodle.getQeList().size(); i++)
-            nomi[i] = targetQoodle.getQeList().get(i).getName();
-
-        System.out.println(nomi[0] + nomi[1]);
-
-*/
-
-
-
-
-
         final int nrElements = targetQoodle.getQeList().size();
-
-        System.out.println("dimensione elementi" + nrElements);
-
         Detail [] details = new Detail [nrElements] ;
 
         for ( int i = 0 ; i < nrElements; i++)
             details[i] = new Detail( targetQoodle.getQeList().get(i).getName());
-
-
-
-        for(Vote v : targetQoodle.getVoList())
-            System.out.println(v);
-
 
 
         final ArrayList<SingleVote> allVotes = new ArrayList<>() ;
@@ -181,12 +143,8 @@ public class Main {
         for( Vote v : targetQoodle.getVoList()) {
             for (int i = 0; i < v.getVotes().size(); i++) {
                 allVotes.add(new SingleVote(v.getUserId(), v.getVotes().get(i)));
-                //System.out.println(v);
             }
         }
-
-       // for(int i = 0 ; i < allVotes.size(); i++ )
-       //     System.out.println(allVotes.get(i));
 
         System.out.println("dimensione di tutti i voti" + allVotes.size());
 
@@ -195,16 +153,10 @@ public class Main {
        for(int i = 0, j = 0 ; i < allVotes.size() ; i++, j = ( ( j + nrElements ) % ( allVotes.size() ) ))
         {
             if(i == nrElements) j++;
-            System.out.println("VOTOall  " + j + "va nel posto" + i%nrElements +  "  " + allVotes.get(j));
+            //System.out.println("VOTOall  " + j + "va nel posto" + i%nrElements +  "  " + allVotes.get(j));
             details[ (j % nrElements) ].addWho(allVotes.get(j));
         }
-
-
-        //for(int i = 0 ; i < details.length; i++ )
-        //    System.out.println("CONTROPROVA" + details[i]);
-
-
-
+        
         Details d = new Details(targetQoodle.getTitle(), details);
 
     return gson.toJson(d);
