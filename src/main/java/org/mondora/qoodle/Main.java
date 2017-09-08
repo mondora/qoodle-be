@@ -129,6 +129,7 @@ public class Main {
 
 
         final int nrElements = targetQoodle.getQeList().size();
+        final int nrUser = targetQoodle.getVoList().size();
         Detail [] details = new Detail [nrElements] ;
 
         for ( int i = 0 ; i < nrElements; i++)
@@ -144,15 +145,15 @@ public class Main {
             }
         }
 
-        System.out.println("VOTOESEMPIO: " + allVotes.get(0)); 
-        System.out.println("dimensione di tutti i voti" + allVotes.size());
+
+        System.out.println("dimensione di tutti i voti" + allVotes.size() + "   " + nrElements);
 
 
         //too complicated
        for(int i = 0, j = 0 ; i < allVotes.size() ; i++, j = ( ( j + nrElements ) % ( allVotes.size() ) ))
         {
-            if(i == nrElements) j++;
-            //System.out.println("VOTOall  " + j + "va nel posto" + i%nrElements +  "  " + allVotes.get(j));
+            if( (i != 0 ) &&  i % (nrUser ) == 0  ) j++;
+           // System.out.println("VOTOall  " + j + "va nel posto" + i % nrElements +  "  " + allVotes.get(j));
             details[ (j % nrElements) ].addWho(allVotes.get(j));
         }
 
