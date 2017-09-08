@@ -140,10 +140,11 @@ public class Main {
         //toocomplicated
         for( Vote v : targetQoodle.getVoList()) {
             for (int i = 0; i < v.getVotes().size(); i++) {
-                allVotes.add(new SingleVote(v.getUserId(), v.getVotes().get(i)));
+                allVotes.add(new SingleVote(v.getUserId(), v.getRealName(), v.getVotes().get(i)));
             }
         }
 
+        System.out.println("VOTOESEMPIO: " + allVotes.get(0)); 
         System.out.println("dimensione di tutti i voti" + allVotes.size());
 
 
