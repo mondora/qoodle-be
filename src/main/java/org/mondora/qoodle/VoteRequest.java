@@ -19,6 +19,13 @@ public class VoteRequest extends Vote{
     }
 
 
+    public VoteRequest(long qoodleId, String userId,  String realName,ArrayList<Integer> voti)
+    {
+        super(userId, realName, voti);
+        this.qoodleId = qoodleId;
+    }
+
+
     public long getQoodleId() {
         return qoodleId;
     }

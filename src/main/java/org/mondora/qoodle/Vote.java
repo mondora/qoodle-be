@@ -11,12 +11,23 @@ public class Vote  {
     @Id
     @SerializedName("username")
     private String userId;
+    @SerializedName("realName")
+    private String realName;
+
     @SerializedName("elements")
     private ArrayList<Integer> votes;
+
 
     public Vote(String userId, ArrayList<Integer> votes) {
         this.userId = userId;
         this.votes = votes;
+        this.realName = "";
+    }
+
+    public Vote(String userId,  String realName, ArrayList<Integer> votes) {
+        this.userId = userId;
+        this.votes = votes;
+        this.realName = realName;
     }
 
     public Vote() {
@@ -41,14 +52,22 @@ public class Vote  {
         this.votes = votes;
     }
 
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
     @Override
     public String toString() {
         return "Vote{" +
                 "userId='" + userId + '\'' +
                 ", votes=" + votes +
+                ", realName='" + realName + '\'' +
                 '}';
     }
-
 
     @Override//ok
     public boolean equals(Object o) {
