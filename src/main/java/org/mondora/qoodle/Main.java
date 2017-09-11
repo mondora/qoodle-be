@@ -92,12 +92,17 @@ public class Main {
         System.out.println("VOTO NUOVO INVIATO CON REALNAME: " + req.body() + "VOTONEW : " + newVote);
 
         final Query<org.mondora.qoodle.Qoodle> updateQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", completeObject.getQoodleId());
+        final UpdateOperations<org.mondora.qoodle.Qoodle> updateQoodleVote;
+
 
         if(!updateQuery.get().getVoList().contains(newVote)) {
-            final UpdateOperations<org.mondora.qoodle.Qoodle> updateQoodleVote = datastore.createUpdateOperations(org.mondora.qoodle.Qoodle.class).add("voList", newVote);
-            datastore.update(updateQuery, updateQoodleVote);
+            updateQoodleVote = datastore.createUpdateOperations(org.mondora.qoodle.Qoodle.class).add("voList", newVote);
         }
-
+        else {//se esiste lo sostituisco
+            updateQuery.get().getVoList().set(updateQuery.get().getVoList().indexOf(newVote), newVote);
+            updateQoodleVote = datastore.createUpdateOperations(org.mondora.qoodle.Qoodle.class).set("voList", newVote);
+        }
+        datastore.update(updateQuery, updateQoodleVote);
 
         return req.body();
     }
