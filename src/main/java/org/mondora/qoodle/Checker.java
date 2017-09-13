@@ -55,8 +55,6 @@ public class Checker {
 
                 boolean emailVerified = Boolean.valueOf(payload.getEmailVerified());
 
-                System.out.println("User ID: " + userId);
-                System.out.println( emailVerified ? "email verificata": "non verificata");
 
                 UserInfo user = new UserInfo(userId, name, email, pictureUrl);
 

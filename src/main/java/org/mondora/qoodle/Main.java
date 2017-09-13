@@ -89,8 +89,6 @@ public class Main {
         final org.mondora.qoodle.VoteRequest completeObject = gson.fromJson(req.body().toString(), org.mondora.qoodle.VoteRequest.class);
         final org.mondora.qoodle.Vote newVote = new org.mondora.qoodle.Vote(completeObject.getUserId(), completeObject.getRealName(), completeObject.getVotes());
 
-        System.out.println("VOTO NUOVO INVIATO CON REALNAME: " + req.body() + "VOTONEW : " + newVote);
-
         final Query<org.mondora.qoodle.Qoodle> updateQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", completeObject.getQoodleId());
         final UpdateOperations<org.mondora.qoodle.Qoodle> updateQoodleVote;
 
@@ -150,8 +148,6 @@ public class Main {
             }
         }
 
-
-        System.out.println("dimensione di tutti i voti" + allVotes.size() + "   " + nrElements);
 
 
         //too complicated
