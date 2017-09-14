@@ -62,7 +62,7 @@ public class Checker {
 
 
             } else {
-                System.out.println("Invalid ID token.");
+                risposta = "Invalid ID token.";
             }
 
 
