@@ -72,11 +72,11 @@ public class Main {
     private static String getQoodleElements( Gson gson, Datastore datastore) {
         final List<org.mondora.qoodle.Qoodle> primaQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).retrievedFields(true, "qeList").asList();
         final ArrayList<org.mondora.qoodle.QoodleElement> templateExample;
-        if (primaQuery.size() > 0) {
-            templateExample = primaQuery.get(0).getQeList();
+        try{
+            templateExample = primaQuery.get(99).getQeList();
             return gson.toJson(templateExample);
         }
-        else
+        catch( Exception e)
         {
                 return "{[]}";
             }
