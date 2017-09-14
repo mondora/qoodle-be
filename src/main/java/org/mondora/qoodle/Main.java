@@ -100,7 +100,7 @@ public class Main {
     public static String getDetails(Datastore ds , Gson gson, Request req)
     {
 
-
+        if(isLoggedIn(gson, req)) {
 
             long id = Long.parseLong(req.params(":id"));
 
@@ -136,7 +136,10 @@ public class Main {
             Details d = new Details(targetQoodle.getTitle(), details);
 
             return gson.toJson(d);
-
+        }else
+        {
+            return "ACCESSO VIETATO";
+        }
 
     }
 
@@ -218,7 +221,7 @@ public class Main {
 
 
             //DETAILS
-            get("/details/:id", (req, res) -> getDetails(datastore, gson, req) );
+            post("/details/:id", (req, res) -> getDetails(datastore, gson, req) );
 
 
             //AUTHENTICATION
