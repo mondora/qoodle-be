@@ -62,6 +62,7 @@ public class Checker {
         }catch (Exception e)
         {
             e.printStackTrace();
+            risposta = "Invalid ID token.";
         }
         return risposta;
     }
@@ -76,21 +77,21 @@ public class Checker {
     }
 
 
-    public static String check(String googleId, String clientId) {
+    public static boolean check(String googleId, String clientId) {
 
         GoogleIdTokenVerifier verifier = getGoogleIdTokenVerifier(clientId);
 
-        String risposta="";
+        boolean risposta;
 
         try {
             GoogleIdToken idToken = verifier.verify(googleId);
 
             if (idToken != null) {
-                risposta =  "true";
+                risposta =  true;
 
 
             } else {
-                risposta = "false";
+                risposta = false;
             }
 
 
@@ -98,6 +99,7 @@ public class Checker {
         }catch (Exception e)
         {
             e.printStackTrace();
+            risposta = false;
         }
 
     return risposta;

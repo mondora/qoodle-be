@@ -24,29 +24,37 @@ public class Main {
         primoQoodle.insert(targetId, datastore);
     }
 
-    private static String getList(Datastore datastore, Gson gson) {
-        final Query<org.mondora.qoodle.Qoodle> primaQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).retrievedFields(true, "qoodleId","title", "description","closingDate", "voList", "backgroundImage");
-        final List<org.mondora.qoodle.Qoodle> sal = primaQuery.asList();
+    private static String getList(Datastore datastore, Gson gson, Request req) {
+
+        System.out.println(isLoggedIn(gson, req));
+
+        if(isLoggedIn(gson, req)) {
+            final Query<org.mondora.qoodle.Qoodle> primaQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).retrievedFields(true, "qoodleId", "title", "description", "closingDate", "voList", "backgroundImage");
+            final List<org.mondora.qoodle.Qoodle> sal = primaQuery.asList();
 
 
-        ArrayList<org.mondora.qoodle.Qoodles> qList = new ArrayList<>();
+            ArrayList<org.mondora.qoodle.Qoodles> qList = new ArrayList<>();
 
-        for ( org.mondora.qoodle.Qoodle x : sal)
-        {
-            qList.add(
-            new org.mondora.qoodle.Qoodles
-            (x.getqoodleId(),
-            x.getTitle(),
-            x.getDescription() ,
-            x.getVoList().size(),
-            x.getClosingDate(),
-            x.getBackgroundImage())
-            );
+            for (org.mondora.qoodle.Qoodle x : sal) {
+                qList.add(
+                        new org.mondora.qoodle.Qoodles
+                                (x.getqoodleId(),
+                                        x.getTitle(),
+                                        x.getDescription(),
+                                        x.getVoList().size(),
+                                        x.getClosingDate(),
+                                        x.getBackgroundImage())
+                );
 
 
+            }
+
+            return gson.toJson(qList);
         }
-
-        return gson.toJson(qList);
+        else
+        {
+            return "ACCESSO VIETATO";
+        }
     }
 
     private static String getQoodleView(Gson gson,Datastore datastore, Request req) {
@@ -125,49 +133,51 @@ public class Main {
     public static String getDetails(Datastore ds , Gson gson, Request req)
     {
 
-        long id = Long.parseLong( req.params(":id"));
-
-        final Query<org.mondora.qoodle.Qoodle> primaQuery = ds.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", id).retrievedFields(true, "qoodleId","title", "qeList", "voList");
-        final org.mondora.qoodle.Qoodle targetQoodle = primaQuery.limit(1).get();
 
 
-        final int nrElements = targetQoodle.getQeList().size();
-        final int nrUser = targetQoodle.getVoList().size();
-        Detail [] details = new Detail [nrElements] ;
+            long id = Long.parseLong(req.params(":id"));
 
-        for ( int i = 0 ; i < nrElements; i++)
-            details[i] = new Detail( targetQoodle.getQeList().get(i).getName());
+            final Query<org.mondora.qoodle.Qoodle> primaQuery = ds.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", id).retrievedFields(true, "qoodleId", "title", "qeList", "voList");
+            final org.mondora.qoodle.Qoodle targetQoodle = primaQuery.limit(1).get();
 
 
-        final ArrayList<SingleVote> allVotes = new ArrayList<>() ;
+            final int nrElements = targetQoodle.getQeList().size();
+            final int nrUser = targetQoodle.getVoList().size();
+            Detail[] details = new Detail[nrElements];
 
-        //toocomplicated
-        for( Vote v : targetQoodle.getVoList()) {
-            for (int i = 0; i < v.getVotes().size(); i++) {
-                allVotes.add(new SingleVote(v.getUserId(), v.getRealName(), v.getVotes().get(i)));
+            for (int i = 0; i < nrElements; i++)
+                details[i] = new Detail(targetQoodle.getQeList().get(i).getName());
+
+
+            final ArrayList<SingleVote> allVotes = new ArrayList<>();
+
+            //toocomplicated
+            for (Vote v : targetQoodle.getVoList()) {
+                for (int i = 0; i < v.getVotes().size(); i++) {
+                    allVotes.add(new SingleVote(v.getUserId(), v.getRealName(), v.getVotes().get(i)));
+                }
             }
-        }
 
 
+            //too complicated
+            for (int i = 0, j = 0; i < allVotes.size(); i++, j = ((j + nrElements) % (allVotes.size()))) {
+                if ((i != 0) && i % (nrUser) == 0) j++;
+                // System.out.println("VOTOall  " + j + "va nel posto" + i % nrElements +  "  " + allVotes.get(j));
+                details[(j % nrElements)].addWho(allVotes.get(j));
+            }
 
-        //too complicated
-       for(int i = 0, j = 0 ; i < allVotes.size() ; i++, j = ( ( j + nrElements ) % ( allVotes.size() ) ))
-        {
-            if( (i != 0 ) &&  i % (nrUser ) == 0  ) j++;
-           // System.out.println("VOTOall  " + j + "va nel posto" + i % nrElements +  "  " + allVotes.get(j));
-            details[ (j % nrElements) ].addWho(allVotes.get(j));
-        }
+            Details d = new Details(targetQoodle.getTitle(), details);
 
-        Details d = new Details(targetQoodle.getTitle(), details);
+            return gson.toJson(d);
 
-    return gson.toJson(d);
 
     }
 
 
-    public static String isLoggedIn(Gson gs, Request req)
+    public static boolean isLoggedIn(Gson gs, Request req)
     {
         org.mondora.qoodle.AuthObject recivedObject = gs.fromJson(req.body(), org.mondora.qoodle.AuthObject.class);
+        System.out.println("QOESTA È LA REQUEWST" + req.body());
 
         String googleId = recivedObject.getId_token();
         String clientId = recivedObject.getId_client();
@@ -198,6 +208,11 @@ public class Main {
 
             Gson gson = new Gson();
 
+            //LIST
+            post("/qoodles", (req, res) ->getList(datastore, gson, req));
+
+
+
             //da chiamare perogni api che chiede dati
             post("/check", (req, res) -> isLoggedIn(gson, req));
 
@@ -211,8 +226,6 @@ public class Main {
             post("/token", (req, res) -> showUserToken(gson, req));
 
 
-            //LIST
-            get("/qoodles", (req, res) ->getList(datastore, gson));
 
 
             //VIEW
