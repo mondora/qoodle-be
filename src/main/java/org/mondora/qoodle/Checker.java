@@ -27,21 +27,13 @@ public class Checker {
 
     public static String verify(String googleId, String clientId, Gson gson) {
 
-        NetHttpTransport transport = new NetHttpTransport();
-        GsonFactory jsonFactory = new GsonFactory();
-
-        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
-                .setAudience(Collections.singletonList(clientId))
-                .build();
-
+        GoogleIdTokenVerifier verifier = getGoogleIdTokenVerifier(clientId);
 
         String risposta = "";
 
 
-
         try {
             GoogleIdToken idToken = verifier.verify(googleId);
-
 
 
 
@@ -74,4 +66,40 @@ public class Checker {
         return risposta;
     }
 
+    public static GoogleIdTokenVerifier getGoogleIdTokenVerifier(String clientId) {
+        NetHttpTransport transport = new NetHttpTransport();
+        GsonFactory jsonFactory = new GsonFactory();
+
+        return new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
+                .setAudience(Collections.singletonList(clientId))
+                .build();
+    }
+
+
+    public static String check(String googleId, String clientId) {
+
+        GoogleIdTokenVerifier verifier = getGoogleIdTokenVerifier(clientId);
+
+        String risposta="";
+
+        try {
+            GoogleIdToken idToken = verifier.verify(googleId);
+
+            if (idToken != null) {
+                risposta =  "true";
+
+
+            } else {
+                risposta = "false";
+            }
+
+
+
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+    return risposta;
+    }
 }

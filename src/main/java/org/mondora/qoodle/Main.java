@@ -165,6 +165,19 @@ public class Main {
     }
 
 
+    public static String isLoggedIn(Gson gs, Request req)
+    {
+        org.mondora.qoodle.AuthObject recivedObject = gs.fromJson(req.body(), org.mondora.qoodle.AuthObject.class);
+
+        String googleId = recivedObject.getId_token();
+        String clientId = recivedObject.getId_client();
+
+
+        return (Checker.check(googleId, clientId));
+    }
+
+
+
 
 
     public static void main(String[] args) {
@@ -183,10 +196,11 @@ public class Main {
 
         try{
 
-
-
-
             Gson gson = new Gson();
+
+            //da chiamare perogni api che chiede dati
+            post("/check", (req, res) -> isLoggedIn(gson, req));
+
 
 
             //DETAILS
