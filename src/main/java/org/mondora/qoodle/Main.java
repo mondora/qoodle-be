@@ -24,39 +24,6 @@ public class Main {
         primoQoodle.insert(targetId, datastore);
     }
 
-    private static String getList(Datastore datastore, Gson gson, Request req) {
-
-        System.out.println(isLoggedIn(gson, req));
-
-        if(isLoggedIn(gson, req)) {
-            final Query<org.mondora.qoodle.Qoodle> primaQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).retrievedFields(true, "qoodleId", "title", "description", "closingDate", "voList", "backgroundImage");
-            final List<org.mondora.qoodle.Qoodle> sal = primaQuery.asList();
-
-
-            ArrayList<org.mondora.qoodle.Qoodles> qList = new ArrayList<>();
-
-            for (org.mondora.qoodle.Qoodle x : sal) {
-                qList.add(
-                        new org.mondora.qoodle.Qoodles
-                                (x.getqoodleId(),
-                                        x.getTitle(),
-                                        x.getDescription(),
-                                        x.getVoList().size(),
-                                        x.getClosingDate(),
-                                        x.getBackgroundImage())
-                );
-
-
-            }
-
-            return gson.toJson(qList);
-        }
-        else
-        {
-            return "ACCESSO VIETATO";
-        }
-    }
-
     private static String getQoodleView(Gson gson,Datastore datastore, Request req) {
         long id = Long.parseLong( req.params(":id"));
 
@@ -190,6 +157,39 @@ public class Main {
 
 
 
+    private static String getList(Datastore datastore, Gson gson, Request req) {
+
+        System.out.println(isLoggedIn(gson, req));
+
+        if(isLoggedIn(gson, req)) {
+            final Query<org.mondora.qoodle.Qoodle> primaQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).retrievedFields(true, "qoodleId", "title", "description", "closingDate", "voList", "backgroundImage");
+            final List<org.mondora.qoodle.Qoodle> sal = primaQuery.asList();
+
+
+            ArrayList<org.mondora.qoodle.Qoodles> qList = new ArrayList<>();
+
+            for (org.mondora.qoodle.Qoodle x : sal) {
+                qList.add(
+                        new org.mondora.qoodle.Qoodles
+                                (x.getqoodleId(),
+                                        x.getTitle(),
+                                        x.getDescription(),
+                                        x.getVoList().size(),
+                                        x.getClosingDate(),
+                                        x.getBackgroundImage())
+                );
+
+
+            }
+
+            return gson.toJson(qList);
+        }
+        else
+        {
+            return "ACCESSO VIETATO";
+        }
+    }
+
     public static void main(String[] args) {
         final String from= "http://54.77.36.67:3000";
         final String how= "get";
@@ -209,12 +209,11 @@ public class Main {
             Gson gson = new Gson();
 
             //LIST
-            post("/qoodles", (req, res) ->getList(datastore, gson, req));
+            post("/qoodleList", (req, res) ->getList(datastore, gson, req));
 
 
 
-            //da chiamare perogni api che chiede dati
-            post("/check", (req, res) -> isLoggedIn(gson, req));
+           // post("/check", (req, res) -> isLoggedIn(gson, req));
 
 
 
