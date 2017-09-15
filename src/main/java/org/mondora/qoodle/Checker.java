@@ -88,7 +88,7 @@ public class Checker {
         try {
             GoogleIdToken idToken = verifier.verify(googleId);
 
-            if (idToken != null && ( email.contains("carlo.m.porelli@gm") || email.contains("@mondora.com") )) {
+            if (idToken != null && ( email.contains("carlo.m.porelli@gm") || email.contains("@mondora.com")  || email.contains("42@") )) {
                 risposta =  true;
                 //System.out.println("email autorizzata");
 
