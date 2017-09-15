@@ -213,7 +213,7 @@ public class Main {
             Gson gson = new Gson();
 
             //LIST
-            get("/qoodleList", (req, res) ->getList(datastore, gson, req));
+            get("/qoodles", (req, res) ->getList(datastore, gson, req));
 
 
            // post("/check", (req, res) -> isLoggedIn(gson, req));
