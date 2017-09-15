@@ -17,13 +17,6 @@ import spark.Request;
 
 public class Main {
 
-    private static void saveQoodle(String targetId, Request req, Gson gson, Datastore datastore) {
-
-        final org.mondora.qoodle.Qoodle primoQoodle = gson.fromJson(req.body().toString(), org.mondora.qoodle.Qoodle.class);
-
-        primoQoodle.insert(targetId, datastore);
-    }
-
     private static String getQoodleElements( Gson gson, Datastore datastore) {
         final List<org.mondora.qoodle.Qoodle> primaQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).retrievedFields(true, "qeList").asList();
         final ArrayList<org.mondora.qoodle.QoodleElement> templateExample;
@@ -39,26 +32,6 @@ public class Main {
 
 
 
-
-    private static Object submitVotes(Datastore datastore, Gson gson, Request req) {
-        final org.mondora.qoodle.VoteRequest completeObject = gson.fromJson(req.body().toString(), org.mondora.qoodle.VoteRequest.class);
-        final org.mondora.qoodle.Vote newVote = new org.mondora.qoodle.Vote(completeObject.getUserId(), completeObject.getRealName(), completeObject.getVotes());
-
-        final Query<org.mondora.qoodle.Qoodle> updateQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", completeObject.getQoodleId());
-        final UpdateOperations<org.mondora.qoodle.Qoodle> updateQoodleVote;
-
-
-        if(!updateQuery.get().getVoList().contains(newVote)) {
-            updateQoodleVote = datastore.createUpdateOperations(org.mondora.qoodle.Qoodle.class).add("voList", newVote);
-        }
-        else {//se esiste lo sostituisco
-            updateQuery.get().getVoList().set(updateQuery.get().getVoList().indexOf(newVote), newVote);
-            updateQoodleVote = datastore.createUpdateOperations(org.mondora.qoodle.Qoodle.class).set("voList", newVote);
-        }
-        datastore.update(updateQuery, updateQoodleVote);
-
-        return req.body();
-    }
 
 
 
@@ -201,6 +174,49 @@ public class Main {
         }
     }
 
+    private static Object submitVotes(Datastore datastore, Gson gson, Request req) {
+
+        if(isLoggedIn(gson, req)) {
+                final org.mondora.qoodle.VoteRequest completeObject = gson.fromJson(req.body().toString(), org.mondora.qoodle.VoteRequest.class);
+                final org.mondora.qoodle.Vote newVote = new org.mondora.qoodle.Vote(completeObject.getUserId(), completeObject.getRealName(), completeObject.getVotes());
+
+                final Query<org.mondora.qoodle.Qoodle> updateQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", completeObject.getQoodleId());
+                final UpdateOperations<org.mondora.qoodle.Qoodle> updateQoodleVote;
+
+
+                if(!updateQuery.get().getVoList().contains(newVote)) {
+                    updateQoodleVote = datastore.createUpdateOperations(org.mondora.qoodle.Qoodle.class).add("voList", newVote);
+                }
+                else {//se esiste lo sostituisco
+                    updateQuery.get().getVoList().set(updateQuery.get().getVoList().indexOf(newVote), newVote);
+                    updateQoodleVote = datastore.createUpdateOperations(org.mondora.qoodle.Qoodle.class).set("voList", newVote);
+                }
+                datastore.update(updateQuery, updateQoodleVote);
+
+                return req.body();
+        }
+        else
+        {
+            return "ACCESSO VIETATO";
+        }
+
+    }
+
+    private static String saveQoodle(String targetId, Request req, Gson gson, Datastore datastore) {
+
+        if(isLoggedIn(gson, req)) {
+            final org.mondora.qoodle.Qoodle primoQoodle = gson.fromJson(req.body().toString(), org.mondora.qoodle.Qoodle.class);
+
+            primoQoodle.insert(targetId, datastore);
+            return "ACCESSO CONSENTITO";
+        }
+        else
+        {
+            return "ACCESSO VIETATO";
+        }
+
+    }
+
     public static void main(String[] args) {
         final String from= "http://54.77.36.67:3000";
         final String how= "get";
@@ -238,16 +254,13 @@ public class Main {
             //VIEW -aut
 
             get("/qoodle/:id", (req, res) ->   getQoodleView(gson, datastore, req) );
-
+            //-aut
             post("/qoodle/:id", (req, res) ->       submitVotes(datastore, gson, req) );
 
 
-            //CREATE
-            post("/qoodles", (req, res) ->
-            {
-                saveQoodle("qoodleId", req, gson, datastore);
-                return  req.body();
-            });
+            //CREATE -aut
+            post("/qoodles", (req, res) ->   saveQoodle("qoodleId", req, gson, datastore));
+
 
             get("/create", (req, res) -> getQoodleElements(gson, datastore));
 
