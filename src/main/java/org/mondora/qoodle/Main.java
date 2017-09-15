@@ -47,8 +47,8 @@ public class Main {
             final Query<org.mondora.qoodle.Qoodle> primaQuery = ds.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", id).retrievedFields(true, "qoodleId", "title", "qeList", "voList");
             final org.mondora.qoodle.Qoodle targetQoodle = primaQuery.limit(1).get();
 
-
-            final int nrElements = targetQoodle.getQeList().size();
+            int nrElements = 0;
+            if(targetQoodle.getQeList() != null) nrElements = targetQoodle.getQeList().size();
             final int nrUser = targetQoodle.getVoList().size();
             Detail[] details = new Detail[nrElements];
 
@@ -152,6 +152,9 @@ public class Main {
                             targetQoodle.getQeList()
                     );
 
+            if(targetQoodle.getQeList() == null )
+                qView.setEle(new ArrayList<>());
+
             return gson.toJson(qView);
         }
         else
@@ -164,7 +167,7 @@ public class Main {
 
         if(isLoggedIn(gson, req)) {
                 final org.mondora.qoodle.VoteRequest completeObject = gson.fromJson(req.body().toString(), org.mondora.qoodle.VoteRequest.class);
-                final org.mondora.qoodle.Vote newVote = new org.mondora.qoodle.Vote(completeObject.getUserId(), completeObject.getRealName(), completeObject.getVotes());
+                 final org.mondora.qoodle.Vote newVote = new org.mondora.qoodle.Vote(completeObject.getUserId(), completeObject.getRealName(), completeObject.getVotes());
 
                 final Query<org.mondora.qoodle.Qoodle> updateQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", completeObject.getQoodleId());
                 final UpdateOperations<org.mondora.qoodle.Qoodle> updateQoodleVote;
