@@ -77,17 +77,20 @@ public class Checker {
     }
 
 
-    public static boolean check(String googleId, String clientId) {
+    public static boolean check(String googleId, String clientId, String email) {
 
         GoogleIdTokenVerifier verifier = getGoogleIdTokenVerifier(clientId);
 
         boolean risposta;
 
+
+
         try {
             GoogleIdToken idToken = verifier.verify(googleId);
 
-            if (idToken != null) {
+            if (idToken != null && ( email.contains("carlo.m.porelli@gm") || email.contains("@mondora.com") )) {
                 risposta =  true;
+                System.out.println("email autorizzata");
 
 
             } else {

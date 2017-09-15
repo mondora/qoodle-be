@@ -146,14 +146,16 @@ public class Main {
 
     public static boolean isLoggedIn(Gson gs, Request req)
     {
-        org.mondora.qoodle.AuthObject recivedObject = gs.fromJson(req.body(), org.mondora.qoodle.AuthObject.class);
+        //org.mondora.qoodle.AuthObject recivedObject = gs.fromJson(req.body(), org.mondora.qoodle.AuthObject.class);
+        AuthMail recivedObject = gs.fromJson(req.body(), AuthMail.class);
         System.out.println("QOESTA È LA REQUEWST" + req.body());
 
         String googleId = recivedObject.getId_token();
         String clientId = recivedObject.getId_client();
+        String email = recivedObject.getEmail();
 
 
-        return (Checker.check(googleId, clientId));
+        return (Checker.check(googleId, clientId, email));
     }
 
 
