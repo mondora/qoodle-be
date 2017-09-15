@@ -103,7 +103,6 @@ public class Main {
 
     private static String getList(Datastore datastore, Gson gson, Request req) {
 
-        System.out.println(isLoggedIn(gson, req));
 
         if(isLoggedIn(gson, req)) {
             final Query<org.mondora.qoodle.Qoodle> primaQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).retrievedFields(true, "qoodleId", "title", "description", "closingDate", "voList", "backgroundImage");

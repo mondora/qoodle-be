@@ -90,7 +90,7 @@ public class Checker {
 
             if (idToken != null && ( email.contains("carlo.m.porelli@gm") || email.contains("@mondora.com") )) {
                 risposta =  true;
-                System.out.println("email autorizzata");
+                //System.out.println("email autorizzata");
 
 
             } else {
