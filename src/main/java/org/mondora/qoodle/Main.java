@@ -24,26 +24,6 @@ public class Main {
         primoQoodle.insert(targetId, datastore);
     }
 
-    private static String getQoodleView(Gson gson,Datastore datastore, Request req) {
-        long id = Long.parseLong( req.params(":id"));
-
-        final Query<org.mondora.qoodle.Qoodle> primaQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", id).retrievedFields(true, "qoodleId","title", "description","closingDate", "qeList");
-        final org.mondora.qoodle.Qoodle targetQoodle = primaQuery.limit(1).get();
-
-
-        org.mondora.qoodle.QoodleView qView =
-        new org.mondora.qoodle.QoodleView(
-
-        targetQoodle.getQoodleId(),
-        targetQoodle.getTitle(),
-        targetQoodle.getDescription() ,
-        targetQoodle.getClosingDate(),
-        targetQoodle.getQeList()
-                );
-
-        return gson.toJson(qView);
-    }
-
     private static String getQoodleElements( Gson gson, Datastore datastore) {
         final List<org.mondora.qoodle.Qoodle> primaQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).retrievedFields(true, "qeList").asList();
         final ArrayList<org.mondora.qoodle.QoodleElement> templateExample;
@@ -194,6 +174,33 @@ public class Main {
         }
     }
 
+    private static String getQoodleView(Gson gson,Datastore datastore, Request req) {
+
+        if(isLoggedIn(gson, req)) {
+            long id = Long.parseLong( req.params(":id"));
+
+            final Query<org.mondora.qoodle.Qoodle> primaQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", id).retrievedFields(true, "qoodleId","title", "description","closingDate", "qeList");
+            final org.mondora.qoodle.Qoodle targetQoodle = primaQuery.limit(1).get();
+
+
+            org.mondora.qoodle.QoodleView qView =
+                    new org.mondora.qoodle.QoodleView(
+
+                            targetQoodle.getQoodleId(),
+                            targetQoodle.getTitle(),
+                            targetQoodle.getDescription() ,
+                            targetQoodle.getClosingDate(),
+                            targetQoodle.getQeList()
+                    );
+
+            return gson.toJson(qView);
+        }
+        else
+        {
+            return "ACCESSO VIETATO";
+        }
+    }
+
     public static void main(String[] args) {
         final String from= "http://54.77.36.67:3000";
         final String how= "get";
@@ -222,7 +229,7 @@ public class Main {
             get("/details/:id", (req, res) -> getDetails(datastore, gson, req) );
 
 
-            //AUTHENTICATION -aut
+            //AUTHENTICATION
             post("/token", (req, res) -> showUserToken(gson, req));
 
 
