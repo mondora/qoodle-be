@@ -212,25 +212,23 @@ public class Main {
 
             Gson gson = new Gson();
 
-            //LIST
+            //LIST -aut
             get("/qoodles", (req, res) ->getList(datastore, gson, req));
 
 
-           // post("/check", (req, res) -> isLoggedIn(gson, req));
 
 
+            //DETAILS -aut
+            get("/details/:id", (req, res) -> getDetails(datastore, gson, req) );
 
-            //DETAILS
-            post("/details/:id", (req, res) -> getDetails(datastore, gson, req) );
 
-
-            //AUTHENTICATION
+            //AUTHENTICATION -aut
             post("/token", (req, res) -> showUserToken(gson, req));
 
 
 
 
-            //VIEW
+            //VIEW -aut
 
             get("/qoodle/:id", (req, res) ->   getQoodleView(gson, datastore, req) );
 
