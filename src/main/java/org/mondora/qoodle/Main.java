@@ -17,19 +17,6 @@ import spark.Request;
 
 public class Main {
 
-    private static String getQoodleElements( Gson gson, Datastore datastore) {
-        final List<org.mondora.qoodle.Qoodle> primaQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).retrievedFields(true, "qeList").asList();
-        final ArrayList<org.mondora.qoodle.QoodleElement> templateExample;
-        try{
-            templateExample = primaQuery.get(99).getQeList();
-            return gson.toJson(templateExample);
-        }
-        catch( Exception e)
-        {
-                return "{[]}";
-            }
-    }
-
 
 
 
@@ -217,6 +204,27 @@ public class Main {
 
     }
 
+    private static String getQoodleElements( Gson gson, Datastore datastore, Request req) {
+        if(isLoggedIn(gson, req)) {
+            final org.mondora.qoodle.Qoodle templateExample = datastore.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", 99).retrievedFields(true, "qeList").get();
+
+            try {
+
+                return gson.toJson(
+                        new ArrayList<QoodleElement>(
+                                templateExample.getQeList()
+                        )
+                );
+            } catch (Exception e) {
+                return "{[]}";
+            }
+        }
+        else
+        {
+            return "ACCESSO VIETATO";
+        }
+    }
+
     public static void main(String[] args) {
         final String from= "http://54.77.36.67:3000";
         final String how= "get";
@@ -261,8 +269,8 @@ public class Main {
             //CREATE -aut
             post("/qoodles", (req, res) ->   saveQoodle("qoodleId", req, gson, datastore));
 
-
-            get("/create", (req, res) -> getQoodleElements(gson, datastore));
+            //-aut
+            get("/create", (req, res) -> getQoodleElements(gson, datastore, req));
 
 
         }
