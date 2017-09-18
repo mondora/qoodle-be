@@ -172,13 +172,16 @@ public class Main {
                 final Query<org.mondora.qoodle.Qoodle> updateQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", completeObject.getQoodleId());
                 final UpdateOperations<org.mondora.qoodle.Qoodle> updateQoodleVote;
 
-
                 if(!updateQuery.get().getVoList().contains(newVote)) {
-                    updateQoodleVote = datastore.createUpdateOperations(org.mondora.qoodle.Qoodle.class).add("voList", newVote);
+                    ArrayList<Vote> withNewVote = updateQuery.get().getVoList();
+                    withNewVote.add(newVote);
+                    updateQoodleVote = datastore.createUpdateOperations(org.mondora.qoodle.Qoodle.class).set("voList", withNewVote);
                 }
                 else {//se esiste lo sostituisco
                     updateQuery.get().getVoList().set(updateQuery.get().getVoList().indexOf(newVote), newVote);
-                    updateQoodleVote = datastore.createUpdateOperations(org.mondora.qoodle.Qoodle.class).set("voList", newVote);
+
+                    
+                    updateQoodleVote = datastore.createUpdateOperations(org.mondora.qoodle.Qoodle.class).set("voList", updateQuery.get().getVoList());
                 }
                 datastore.update(updateQuery, updateQoodleVote);
 
