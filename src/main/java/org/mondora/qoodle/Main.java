@@ -30,7 +30,7 @@ public class Main {
         return (recivedObject.verify(gson));
     }
 
-    public static boolean isLoggedIn(Gson gs, Request req)
+    public static boolean isLoggedIn(Request req)
     {
 
         // System.out.println("QOESTA È LA REQUEWST la mail" + req.headers("email") + req.headers("id_token")  + "   " + req.headers("id_client"));
@@ -47,7 +47,7 @@ public class Main {
     public static String getDetails(Datastore ds , Gson gson, Request req)
     {
 
-        if(isLoggedIn(gson, req)) {
+        if(isLoggedIn(req)) {
 
             long id = Long.parseLong(req.params(":id"));
 
@@ -97,7 +97,7 @@ public class Main {
     private static String getList(Datastore datastore, Gson gson, Request req) {
 
 
-        if(isLoggedIn(gson, req)) {
+        if(isLoggedIn(req)) {
             final List<org.mondora.qoodle.Qoodle> qoodles  = datastore.createQuery(org.mondora.qoodle.Qoodle.class).retrievedFields(true, "qoodleId", "title", "description", "closingDate", "voList", "backgroundImage").asList();
 
 
@@ -127,7 +127,7 @@ public class Main {
 
     private static String getQoodleView(Gson gson,Datastore datastore, Request req) {
 
-        if(isLoggedIn(gson, req)) {
+        if(isLoggedIn(req)) {
             long id = Long.parseLong( req.params(":id"));
 
             final Query<org.mondora.qoodle.Qoodle> primaQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", id).retrievedFields(true, "qoodleId","title", "description","closingDate", "qeList");
@@ -157,7 +157,7 @@ public class Main {
 
     private static Object submitVotes(Datastore datastore, Gson gson, Request req) {
 
-        if(isLoggedIn(gson, req)) {
+        if(isLoggedIn(req)) {
                 final org.mondora.qoodle.VoteRequest completeObject = gson.fromJson(req.body().toString(), org.mondora.qoodle.VoteRequest.class);
                  final org.mondora.qoodle.Vote newVote = new org.mondora.qoodle.Vote(completeObject.getUserId(), completeObject.getRealName(), completeObject.getVotes());
 
@@ -188,7 +188,7 @@ public class Main {
 
     private static String saveQoodle(String targetId, Request req, Gson gson, Datastore datastore) {
 
-        if(isLoggedIn(gson, req)) {
+        if(isLoggedIn(req)) {
             final org.mondora.qoodle.Qoodle primoQoodle = gson.fromJson(req.body().toString(), org.mondora.qoodle.Qoodle.class);
 
             primoQoodle.insert(targetId, datastore);
@@ -202,13 +202,13 @@ public class Main {
     }
 
     private static String getQoodleElements( Gson gson, Datastore datastore, Request req) {
-        if(isLoggedIn(gson, req)) {
+        if(isLoggedIn(req)) {
             final org.mondora.qoodle.Qoodle templateExample = datastore.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", 99).retrievedFields(true, "qeList").get();
 
             try {
 
                 return gson.toJson(
-                        new ArrayList<QoodleElement>(
+                        new ArrayList<>(
                                 templateExample.getQeList()
                         )
                 );
