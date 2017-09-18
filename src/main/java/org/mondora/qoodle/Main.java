@@ -27,11 +27,18 @@ public class Main {
 
         org.mondora.qoodle.AuthObject recivedObject = gson.fromJson(req.body(), org.mondora.qoodle.AuthObject.class);
 
-        String googleId = recivedObject.getId_token();
-        String clientId = recivedObject.getId_client();
-
-
         return (recivedObject.verify(gson));
+    }
+
+    public static boolean isLoggedIn(Gson gs, Request req)
+    {
+
+        // System.out.println("QOESTA È LA REQUEWST la mail" + req.headers("email") + req.headers("id_token")  + "   " + req.headers("id_client"));
+
+        String email = req.headers("email");
+        AuthObject checkIdentity = new AuthObject(req.headers("id_client"), req.headers("id_token"));
+
+        return (checkIdentity.check(email));
     }
 
 
@@ -58,7 +65,6 @@ public class Main {
 
             final ArrayList<SingleVote> allVotes = new ArrayList<>();
 
-            //toocomplicated
             for (Vote v : targetQoodle.getVoList()) {
                 for (int i = 0; i < v.getVotes().size(); i++) {
                     allVotes.add(new SingleVote(v.getUserId(), v.getRealName(), v.getVotes().get(i)));
@@ -83,20 +89,6 @@ public class Main {
 
     }
 
-
-    public static boolean isLoggedIn(Gson gs, Request req)
-    {
-
-   //     System.out.println("QOESTA È LA REQUEWST la mail" + req.headers("email") + req.headers("id_token")  + "   " + req.headers("id_client"));
-
-        String googleId = req.headers("id_token");
-        String clientId = req.headers("id_client");
-        String email = req.headers("email");
-
-        AuthObject checkIdentity = new AuthObject(clientId, googleId);
-
-        return (checkIdentity.check(email));
-    }
 
 
 
