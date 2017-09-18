@@ -105,13 +105,12 @@ public class Main {
 
 
         if(isLoggedIn(gson, req)) {
-            final Query<org.mondora.qoodle.Qoodle> primaQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).retrievedFields(true, "qoodleId", "title", "description", "closingDate", "voList", "backgroundImage");
-            final List<org.mondora.qoodle.Qoodle> sal = primaQuery.asList();
+            final List<org.mondora.qoodle.Qoodle> qoodles  = datastore.createQuery(org.mondora.qoodle.Qoodle.class).retrievedFields(true, "qoodleId", "title", "description", "closingDate", "voList", "backgroundImage").asList();
 
 
             ArrayList<org.mondora.qoodle.Qoodles> qList = new ArrayList<>();
 
-            for (org.mondora.qoodle.Qoodle x : sal) {
+            for (org.mondora.qoodle.Qoodle x : qoodles) {
                 qList.add(
                         new org.mondora.qoodle.Qoodles
                                 (x.getqoodleId(),
@@ -180,7 +179,7 @@ public class Main {
                 else {//se esiste lo sostituisco
                     updateQuery.get().getVoList().set(updateQuery.get().getVoList().indexOf(newVote), newVote);
 
-                    
+
                     updateQoodleVote = datastore.createUpdateOperations(org.mondora.qoodle.Qoodle.class).set("voList", updateQuery.get().getVoList());
                 }
                 datastore.update(updateQuery, updateQoodleVote);
