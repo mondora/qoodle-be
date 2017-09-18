@@ -31,7 +31,7 @@ public class Main {
         String clientId = recivedObject.getId_client();
 
 
-        return (Checker.verify(googleId, clientId, gson));
+        return (recivedObject.verify(gson));
     }
 
 
