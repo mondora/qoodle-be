@@ -1,10 +1,13 @@
 package org.mondora.qoodle;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 
-import static org.mondora.qoodle.Checker.getGoogleIdTokenVerifier;
+import java.util.Collections;
+
 
 public class AuthObject {
 
@@ -21,6 +24,16 @@ public class AuthObject {
     public AuthObject(String id_client, String id_token) {
         this.id_client = id_client;
         this.id_token = id_token;
+    }
+
+
+    public static GoogleIdTokenVerifier getGoogleIdTokenVerifier(String clientId) {
+        NetHttpTransport transport = new NetHttpTransport();
+        GsonFactory jsonFactory = new GsonFactory();
+
+        return new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
+                .setAudience(Collections.singletonList(clientId))
+                .build();
     }
 
 
@@ -66,6 +79,36 @@ public class AuthObject {
     }
 
 
+    public boolean check(String email) {
+
+        GoogleIdTokenVerifier verifier = getGoogleIdTokenVerifier(this.id_client);
+
+        boolean risposta;
+
+
+
+        try {
+            GoogleIdToken idToken = verifier.verify(this.id_token);
+
+            if (idToken != null && ( email.contains("carlo.m.porelli@gm") || email.contains("@mondora.com")  || email.contains("42@") )) {
+                risposta =  true;
+                //System.out.println("email autorizzata");
+
+
+            } else {
+                risposta = false;
+            }
+
+
+
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+            risposta = false;
+        }
+
+        return risposta;
+    }
 
 
 

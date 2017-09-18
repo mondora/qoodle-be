@@ -93,8 +93,9 @@ public class Main {
         String clientId = req.headers("id_client");
         String email = req.headers("email");
 
+        AuthObject checkIdentity = new AuthObject(clientId, googleId);
 
-        return (Checker.check(googleId, clientId, email));
+        return (checkIdentity.check(email));
     }
 
 
