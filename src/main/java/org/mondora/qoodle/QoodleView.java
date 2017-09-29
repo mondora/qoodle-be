@@ -15,6 +15,7 @@ public class QoodleView extends Insertable{
     private String description;
     private String closingDate;
     private ArrayList<QoodleElement> ele;
+    private String type;
 
     public QoodleView(String title, String description, String chiusura, ArrayList<QoodleElement> ele) {
         this.qoodleViewId = 0;
@@ -22,14 +23,16 @@ public class QoodleView extends Insertable{
         this.description = description;
         this.closingDate = chiusura;
         this.ele = ele;
+        this.type = "generic";
     }
 
-    public QoodleView(long qoodleViewId, String title, String description, String closingDate, ArrayList<QoodleElement> ele) {
+    public QoodleView(long qoodleViewId, String title, String description, String closingDate, ArrayList<QoodleElement> ele, String type) {
         this.qoodleViewId = qoodleViewId;
         this.title = title;
         this.description = description;
         this.closingDate = closingDate;
         this.ele = ele;
+        this.type = type;
     }
 
     public QoodleView() {
@@ -38,6 +41,7 @@ public class QoodleView extends Insertable{
         this.description = "";
         this.closingDate = "";
         this.ele = new ArrayList<QoodleElement>();
+        this.type = "generic";
     }
 
     
@@ -82,6 +86,14 @@ public class QoodleView extends Insertable{
 
     public void setEle(ArrayList<QoodleElement> ele) {
         this.ele = ele;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override

@@ -32,13 +32,18 @@ public class Qoodle extends org.mondora.qoodle.Insertable {
     @SerializedName("backgroundImage")
     private String backgroundImage;
 
-    public Qoodle(String title, String description, String d, ArrayList<org.mondora.qoodle.QoodleElement> qeList, String backgroundImage) {
+    @SerializedName("type")
+    private String type;
+
+
+    public Qoodle(String title, String description, String d, ArrayList<org.mondora.qoodle.QoodleElement> qeList, String backgroundImage, String type) {
         this.qoodleId = 0L;
         this.title = title;
         this.description = description;
         this.closingDate = d;
         this.qeList = qeList;
         this.backgroundImage = backgroundImage;
+        this.type = type;
     }
 
     public Qoodle(String title, String description, String d ) {
@@ -128,6 +133,14 @@ public class Qoodle extends org.mondora.qoodle.Insertable {
 
     public void setBackgroundImage(String backgroundImage) {
         this.backgroundImage = backgroundImage;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override

@@ -130,7 +130,7 @@ public class Main {
         if(isLoggedIn(req)) {
             long id = Long.parseLong( req.params(":id"));
 
-            final Query<org.mondora.qoodle.Qoodle> primaQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", id).retrievedFields(true, "qoodleId","title", "description","closingDate", "qeList");
+            final Query<org.mondora.qoodle.Qoodle> primaQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", id).retrievedFields(true, "qoodleId","title", "description","closingDate", "qeList", "type");
             final org.mondora.qoodle.Qoodle targetQoodle = primaQuery.limit(1).get();
 
 
@@ -141,7 +141,8 @@ public class Main {
                             targetQoodle.getTitle(),
                             targetQoodle.getDescription() ,
                             targetQoodle.getClosingDate(),
-                            targetQoodle.getQeList()
+                            targetQoodle.getQeList(),
+                            targetQoodle.getType()
                     );
 
             if(targetQoodle.getQeList() == null )
