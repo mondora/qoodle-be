@@ -51,7 +51,7 @@ public class Main {
 
             long id = Long.parseLong(req.params(":id"));
 
-            final Query<org.mondora.qoodle.Qoodle> primaQuery = ds.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", id).retrievedFields(true, "qoodleId", "title", "qeList", "voList");
+            final Query<org.mondora.qoodle.Qoodle> primaQuery = ds.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", id).retrievedFields(true, "qoodleId", "title", "qeList", "voList", "type");
             final org.mondora.qoodle.Qoodle targetQoodle = primaQuery.limit(1).get();
 
             int nrElements = 0;
@@ -79,7 +79,7 @@ public class Main {
                 details[(j % nrElements)].addWho(allVotes.get(j));
             }
 
-            Details d = new Details(targetQoodle.getTitle(), details);
+            Details d = new Details(targetQoodle.getTitle(), details, targetQoodle.getType());
 
             return gson.toJson(d);
         }else
