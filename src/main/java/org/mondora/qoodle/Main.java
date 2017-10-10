@@ -13,7 +13,7 @@ import org.mongodb.morphia.query.Query;
 import com.google.gson.Gson;
 import org.mongodb.morphia.query.UpdateOperations;
 import spark.Request;
-
+import spark.Response;
 
 
 public class Main {
@@ -230,7 +230,7 @@ public class Main {
 
 
 
-    private static String deleteQoodle( Request req, Gson gson, Datastore datastore) {
+    private static Response deleteQoodle(Response res,  Request req, Gson gson, Datastore datastore) {
 
 
         System.out.println("sono nel punto della delete");
@@ -246,12 +246,15 @@ public class Main {
             Qoodle.delete(targetId, datastore);
 
 
-            return "ACCESSO CONSENTITO";
-        }
+            res.status(200);
+
+                 }
         else
         {
-            return "ACCESSO VIETATO";
+           res.status(401);
         }
+
+        return res;
 
 
     }
@@ -275,7 +278,7 @@ public class Main {
             Gson gson = new Gson();
 
 
-            delete("/qoodle/:id", (req, res) -> deleteQoodle(req, gson, datastore));
+            delete("/qoodle/:id", (req, res) -> deleteQoodle(res, req, gson, datastore));
 
 
             //LIST -aut
