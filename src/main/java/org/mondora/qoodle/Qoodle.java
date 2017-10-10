@@ -155,6 +155,13 @@ public class Qoodle extends org.mondora.qoodle.Insertable {
 
     }
 
+    public static void delete(long id, Datastore ds)
+    {
+
+        ds.findAndDelete(ds.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", id));
+
+    }
+
     @Override
     public String toString() {
         return "Qoodle{" +

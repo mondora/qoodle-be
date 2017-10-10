@@ -6,6 +6,7 @@ import static spark.Spark.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.jetty.server.Authentication;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 
@@ -223,6 +224,37 @@ public class Main {
         }
     }
 
+
+
+
+
+
+    private static String deleteQoodle( Request req, Gson gson, Datastore datastore) {
+
+
+        System.out.println("sono nel punto della delete");
+        long targetId = Long.parseLong(req.params(":id"));
+
+        AuthObject checkIdentity = new AuthObject(req.headers("id_client"), req.headers("id_token"));
+
+        UserInfo suspectedUser =  gson.fromJson(checkIdentity.verify(gson), UserInfo.class);
+
+        System.out.println(req.headers("email") + "  " + suspectedUser.getEmail() + " uguaglianza : " + (req.headers("email").equals(suspectedUser.getEmail())));
+        if(isLoggedIn(req) && (req.headers("email").equals(suspectedUser.getEmail())) ) {
+
+            Qoodle.delete(targetId, datastore);
+
+
+            return "ACCESSO CONSENTITO";
+        }
+        else
+        {
+            return "ACCESSO VIETATO";
+        }
+
+
+    }
+
     public static void main(String[] args) {
         final String from= "http://54.77.36.67:3000";
         final String how= "get";
@@ -240,6 +272,10 @@ public class Main {
         try{
 
             Gson gson = new Gson();
+
+
+            delete("/qoodle/:id", (req, res) -> deleteQoodle(req, gson, datastore));
+
 
             //LIST -aut
             get("/qoodles", (req, res) ->getList(datastore, gson, req));
