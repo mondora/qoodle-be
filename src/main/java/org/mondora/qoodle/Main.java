@@ -99,7 +99,7 @@ public class Main {
 
 
         if(isLoggedIn(req)) {
-            final List<org.mondora.qoodle.Qoodle> qoodles  = datastore.createQuery(org.mondora.qoodle.Qoodle.class).retrievedFields(true, "qoodleId", "title", "description", "closingDate", "voList", "backgroundImage").asList();
+            final List<org.mondora.qoodle.Qoodle> qoodles  = datastore.createQuery(org.mondora.qoodle.Qoodle.class).retrievedFields(true, "qoodleId", "title", "description", "closingDate", "voList", "backgroundImage", "owner").asList();
 
 
             ArrayList<org.mondora.qoodle.Qoodles> qList = new ArrayList<>();
@@ -112,7 +112,8 @@ public class Main {
                                         x.getDescription(),
                                         x.getVoList().size(),
                                         x.getClosingDate(),
-                                        x.getBackgroundImage())
+                                        x.getBackgroundImage(),
+                                        x.getOwner())
                 );
 
 
@@ -239,8 +240,8 @@ public class Main {
 
         UserInfo suspectedUser =  gson.fromJson(checkIdentity.verify(gson), UserInfo.class);
 
-        System.out.println(req.headers("email") + "  " + suspectedUser.getEmail() + " uguaglianza : " + (req.headers("email").equals(suspectedUser.getEmail())));
-        if(isLoggedIn(req) && (req.headers("email").equals(suspectedUser.getEmail())) ) {
+        System.out.println(req.headers("owner") + "  " + suspectedUser.getEmail() + " uguaglianza : " + (req.headers("owner").equals(suspectedUser.getEmail())));
+        if(isLoggedIn(req) && (req.headers("owner").equals(suspectedUser.getEmail())) ) {
 
             Qoodle.delete(targetId, datastore);
 

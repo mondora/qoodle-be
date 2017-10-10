@@ -147,6 +147,15 @@ public class Qoodle extends org.mondora.qoodle.Insertable {
         this.type = type;
     }
 
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
     @Override
     public void insert(String name, Datastore ds) {
         long nuovoId = this.inserisci(name, ds);

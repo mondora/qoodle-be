@@ -20,6 +20,8 @@ public class Qoodles extends Insertable{
     @SerializedName("backgroundImage")
     private String backgroundImage;
 
+    private String owner;
+
     public Qoodles() {
 
         this.qoodlesId = 0L;
@@ -43,13 +45,14 @@ public class Qoodles extends Insertable{
 
 
 
-    public Qoodles(long qoodlesId, String title, String description, int partecipants, String closingDate, String backgroundImage) {
+    public Qoodles(long qoodlesId, String title, String description, int partecipants, String closingDate, String backgroundImage, String owner) {
         this.qoodlesId = qoodlesId;
         this.title = title;
         this.description = description;
         this.partecipants = partecipants;
         this.closingDate = closingDate;
         this.backgroundImage = backgroundImage;
+        this.owner = owner;
     }
 
 
@@ -94,6 +97,15 @@ public class Qoodles extends Insertable{
         this.closingDate = closingDate;
     }
 
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+
     @Override
     public String toString() {
         return "Qoodles{" +
@@ -103,6 +115,7 @@ public class Qoodles extends Insertable{
                 ", partecipants=" + partecipants +
                 ", closingDate='" + closingDate + '\'' +
                 ", backgroundImage='" + backgroundImage + '\'' +
+                ", owner='" + owner + '\'' +
                 '}';
     }
 
