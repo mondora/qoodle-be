@@ -189,18 +189,28 @@ public class Main {
 
     }
 
-    private static String saveQoodle(String targetId, Request req, Gson gson, Datastore datastore) {
+    private static Response saveQoodle(String targetId, Request req, Response res, Gson gson, Datastore datastore) {
 
-        if(isLoggedIn(req)) {
-            final org.mondora.qoodle.Qoodle primoQoodle = gson.fromJson(req.body().toString(), org.mondora.qoodle.Qoodle.class);
+        try{
+            if(isLoggedIn(req)) {
+                final org.mondora.qoodle.Qoodle primoQoodle = gson.fromJson(req.body().toString(), org.mondora.qoodle.Qoodle.class);
 
-            primoQoodle.insert(targetId, datastore);
-            return "ACCESSO CONSENTITO";
-        }
-        else
+                primoQoodle.insert(targetId, datastore);
+                res.status(200);
+            }
+            else
+            {
+
+                res.status(401);
+            }
+        }catch (Exception e)
         {
-            return "ACCESSO VIETATO";
+            e.printStackTrace();
+            res.status(500);
         }
+
+            return res;
+
 
     }
 
@@ -278,7 +288,6 @@ public class Main {
             Gson gson = new Gson();
 
 
-            delete("/qoodle/:id", (req, res) -> deleteQoodle(res, req, gson, datastore));
 
 
             //LIST -aut
@@ -305,7 +314,10 @@ public class Main {
 
 
             //CREATE -aut
-            post("/qoodles", (req, res) ->   saveQoodle("qoodleId", req, gson, datastore));
+            post("/qoodles", (req, res) ->   saveQoodle("qoodleId", req, res, gson, datastore));
+
+            //DELETE
+            delete("/qoodle/:id", (req, res) -> deleteQoodle(res, req, gson, datastore));
 
             //-aut
             get("/create", (req, res) -> getQoodleElements(gson, datastore, req));
