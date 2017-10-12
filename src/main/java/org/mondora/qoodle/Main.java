@@ -270,7 +270,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        final String from= "http://qoodle.mondora.com:80";
+        final String from= "http://qoodle.mondora.com";
         final String how= "get";
         final String head= "*";
 
