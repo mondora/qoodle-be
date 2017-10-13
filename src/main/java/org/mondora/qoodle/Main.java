@@ -6,7 +6,6 @@ import static spark.Spark.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jetty.server.Authentication;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 
