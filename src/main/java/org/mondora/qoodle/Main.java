@@ -159,30 +159,30 @@ public class Main {
 
     private static Object submitVotes(Datastore datastore, Gson gson, Request req) {
 
-        if(isLoggedIn(req)) {
-                final org.mondora.qoodle.VoteRequest completeObject = gson.fromJson(req.body().toString(), org.mondora.qoodle.VoteRequest.class);
-                final org.mondora.qoodle.Vote newVote = new org.mondora.qoodle.Vote(completeObject.getUserId(), completeObject.getRealName(), completeObject.getVotes());
+        if (isLoggedIn(req)) {
+            final org.mondora.qoodle.VoteRequest completeObject = gson.fromJson(req.body().toString(), org.mondora.qoodle.VoteRequest.class);
+            final org.mondora.qoodle.Vote newVote = new org.mondora.qoodle.Vote(completeObject.getUserId(), completeObject.getRealName(), completeObject.getVotes());
 
-                final Query<org.mondora.qoodle.Qoodle> updateQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", completeObject.getQoodleId());
-                final UpdateOperations<org.mondora.qoodle.Qoodle> updateQoodleVote;
-
-                if(!updateQuery.get().getVoList().contains(newVote)) {
-                    ArrayList<Vote> withNewVote = updateQuery.get().getVoList();
-                    withNewVote.add(newVote);
-                    updateQoodleVote = datastore.createUpdateOperations(org.mondora.qoodle.Qoodle.class).set("voList", withNewVote);
-                }
-                else {//se esiste lo sostituisco
-                    updateQuery.get().getVoList().set(updateQuery.get().getVoList().indexOf(newVote), newVote);
+            final Query<org.mondora.qoodle.Qoodle> updateQuery = datastore.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", completeObject.getQoodleId());
+            final UpdateOperations<org.mondora.qoodle.Qoodle> updateQoodleVote;
 
 
-                    updateQoodleVote = datastore.createUpdateOperations(org.mondora.qoodle.Qoodle.class).set("voList", updateQuery.get().getVoList());
-                }
-                datastore.update(updateQuery, updateQoodleVote);
 
-                return req.body();
-        }
-        else
-        {
+            if (!updateQuery.get().getVoList().contains(newVote)) {
+                ArrayList<Vote> withNewVote = updateQuery.get().getVoList();
+                withNewVote.add(newVote);
+                updateQoodleVote = datastore.createUpdateOperations(org.mondora.qoodle.Qoodle.class).set("voList", withNewVote);
+            } else {//se esiste lo sostituisco
+                updateQuery.get().getVoList().set(updateQuery.get().getVoList().indexOf(newVote), newVote);
+
+                updateQoodleVote = datastore.createUpdateOperations(org.mondora.qoodle.Qoodle.class).set("voList", updateQuery.get().getVoList());
+
+            }
+
+            datastore.update(updateQuery, updateQoodleVote);
+
+            return req.body();
+        } else {
             return "ACCESSO VIETATO";
         }
 
