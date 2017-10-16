@@ -157,7 +157,7 @@ public class Main {
         }
     }
 
-    private static Object submitVotes(Datastore datastore, Gson gson, Request req) {
+    private static Response submitVotes(Datastore datastore, Gson gson, Request req,  Response res) {
 
         if (isLoggedIn(req)) {
             final org.mondora.qoodle.VoteRequest completeObject = gson.fromJson(req.body().toString(), org.mondora.qoodle.VoteRequest.class);
@@ -181,11 +181,12 @@ public class Main {
 
             datastore.update(updateQuery, updateQoodleVote);
 
-            return req.body();
+            res.status(200);
         } else {
-            return "ACCESSO VIETATO";
+            res.status(401);
         }
 
+        return res;
     }
 
     private static Response saveQoodle(String targetId, Request req, Response res, Gson gson, Datastore datastore) {
@@ -309,7 +310,7 @@ public class Main {
 
             get("/qoodle/:id", (req, res) ->   getQoodleView(gson, datastore, req) );
             //-aut
-            post("/qoodle/:id", (req, res) ->       submitVotes(datastore, gson, req) );
+            post("/qoodle/:id", (req, res) ->       submitVotes(datastore, gson, req, res) );
 
 
             //CREATE -aut
@@ -322,9 +323,7 @@ public class Main {
             get("/create", (req, res) -> getQoodleElements(gson, datastore, req));
 
 
-        }
-        catch(Exception ex)
-        {
+        } catch(Exception ex) {
             ex.printStackTrace();
         }
 
