@@ -219,27 +219,31 @@ public class Main {
 
     private static Response deleteQoodle(Response res, Request req, Gson gson, Datastore datastore) {
 
+        try {
+            System.out.println("sono nel punto della delete");
+            long targetId = Long.parseLong(req.params(":id"));
 
-        System.out.println("sono nel punto della delete");
-        long targetId = Long.parseLong(req.params(":id"));
+            AuthObject checkIdentity = new AuthObject(req.headers("id_client"), req.headers("id_token"));
 
-        AuthObject checkIdentity = new AuthObject(req.headers("id_client"), req.headers("id_token"));
+            UserInfo suspectedUser = gson.fromJson(checkIdentity.verify(gson), UserInfo.class);
 
-        UserInfo suspectedUser = gson.fromJson(checkIdentity.verify(gson), UserInfo.class);
+            System.out.println(req.headers("owner") + "  " + suspectedUser.getEmail() + " uguaglianza : " + (req.headers("owner").equals(suspectedUser.getEmail())));
+            if (isLoggedIn(req) && (req.headers("owner").equals(suspectedUser.getEmail()))) {
 
-        System.out.println(req.headers("owner") + "  " + suspectedUser.getEmail() + " uguaglianza : " + (req.headers("owner").equals(suspectedUser.getEmail())));
-        if (isLoggedIn(req) && (req.headers("owner").equals(suspectedUser.getEmail()))) {
-
-            Qoodle.delete(targetId, datastore);
+                Qoodle.delete(targetId, datastore);
 
 
-            res.status(200);
+                res.status(200);
 
-        } else {
-            res.status(401);
+            } else {
+                res.status(401);
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+            res.status(500);
         }
 
-        return res;
+            return res;
 
 
     }
