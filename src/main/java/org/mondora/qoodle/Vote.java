@@ -74,7 +74,7 @@ public class Vote  {
         boolean test = false;
         if(o instanceof Vote) {
             Vote v = (Vote) o;
-            test = ( v.getUserId().equals(this.getUserId()));
+            test = ( v.getUserId().equals(this.getUserId())  && v.getRealName().equals(this.getRealName())  );
         }
         return test;
     }
