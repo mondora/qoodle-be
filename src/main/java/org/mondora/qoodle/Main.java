@@ -6,6 +6,7 @@ import static spark.Spark.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mondora.qoodle.response.auth.AuthResponse;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 
@@ -267,22 +268,16 @@ public class Main {
 
             //AUTHENTICATION
             post("/token", (req, res) -> {
-                try {
-                    String dataResponse = "";
-                    if ((dataResponse = showUserToken(gson, req)) == "Invalid ID token.") {
-                        res.status(401);
-                        return res;
-                    } else {
-                        return dataResponse;
-                    }
-                } catch (Exception e) {
-                e.printStackTrace();
-                res.status(500);
-                return res;
+
+                AuthResponse authResponse = new AuthResponse(showUserToken(gson, req));
+                if (null != authResponse.data) {
+                    res.status(200);
+                } else {
+                    res.status(401);
                 }
 
+                return authResponse;
             });
-
 
             //LIST -aut
             get("/qoodles", (req, res) -> getList(datastore, gson, req));
