@@ -19,8 +19,7 @@ public class Main {
 
 
     private static String showUserToken(Gson gson, Request req) {
-
-        org.mondora.qoodle.AuthObject recivedObject = gson.fromJson(req.body(), org.mondora.qoodle.AuthObject.class);
+        AuthObject recivedObject = gson.fromJson(req.body(), AuthObject.class);
 
         return (recivedObject.verify(gson));
     }
@@ -266,6 +265,24 @@ public class Main {
 
             Gson gson = new Gson();
 
+            //AUTHENTICATION
+            post("/token", (req, res) -> {
+                try {
+                    String dataResponse = "";
+                    if ((dataResponse = showUserToken(gson, req)) == "Invalid ID token.") {
+                        res.status(401);
+                        return res;
+                    } else {
+                        return dataResponse;
+                    }
+                } catch (Exception e) {
+                e.printStackTrace();
+                res.status(500);
+                return res;
+                }
+
+            });
+
 
             //LIST -aut
             get("/qoodles", (req, res) -> getList(datastore, gson, req));
@@ -274,9 +291,6 @@ public class Main {
             //DETAILS -aut
             get("/details/:id", (req, res) -> getDetails(datastore, gson, req));
 
-
-            //AUTHENTICATION
-            post("/token", (req, res) -> showUserToken(gson, req));
 
 
             //VIEW -aut
