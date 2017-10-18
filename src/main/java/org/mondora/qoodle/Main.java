@@ -204,6 +204,27 @@ public class Main {
                 return "ACCESSO VIETATO";
             }
 
+    }
+
+    private static String deleteQoodle( Request req, Gson gson, Datastore datastore) {
+
+            System.out.println("sono nel punto della delete");
+            long targetId = Long.parseLong(req.params(":id"));
+
+            AuthObject checkIdentity = new AuthObject(req.headers("id_client"), req.headers("id_token"));
+
+            UserInfo suspectedUser = gson.fromJson(checkIdentity.verify(gson), UserInfo.class);
+
+            System.out.println(req.headers("owner") + "  " + suspectedUser.getEmail() + " uguaglianza : " + (req.headers("owner").equals(suspectedUser.getEmail())));
+            if (isLoggedIn(req) && (req.headers("owner").equals(suspectedUser.getEmail()))) {
+
+                Qoodle.delete(targetId, datastore);
+
+                return "OK";
+
+            } else {
+                return "ACCESSO VIETATO";
+            }
 
 
     }
@@ -227,37 +248,6 @@ public class Main {
         }
     }
 
-
-    private static Response deleteQoodle(Response res, Request req, Gson gson, Datastore datastore) {
-
-        try {
-            System.out.println("sono nel punto della delete");
-            long targetId = Long.parseLong(req.params(":id"));
-
-            AuthObject checkIdentity = new AuthObject(req.headers("id_client"), req.headers("id_token"));
-
-            UserInfo suspectedUser = gson.fromJson(checkIdentity.verify(gson), UserInfo.class);
-
-            System.out.println(req.headers("owner") + "  " + suspectedUser.getEmail() + " uguaglianza : " + (req.headers("owner").equals(suspectedUser.getEmail())));
-            if (isLoggedIn(req) && (req.headers("owner").equals(suspectedUser.getEmail()))) {
-
-                Qoodle.delete(targetId, datastore);
-
-
-                res.status(200);
-
-            } else {
-                res.status(401);
-            }
-        }catch (Exception e) {
-            e.printStackTrace();
-            res.status(500);
-        }
-
-            return res;
-
-
-    }
 
     public static void main(String[] args) {
         final String from = "http://qoodle.mondora.com";
@@ -348,7 +338,13 @@ public class Main {
             });
 
             //DELETE
-            delete("/qoodle/:id", (req, res) -> deleteQoodle(res, req, gson, datastore));
+            delete("/qoodle/:id", (req, res) -> //deleteQoodle(req, gson, datastore));
+            {
+                SubmitResponse submitResponse = new SubmitResponse(deleteQoodle(req, gson, datastore));
+
+                setResponseStatus(submitResponse, res);
+                return submitResponse;
+            });
 
             //-aut
             get("/create", (req, res) -> getQoodleElements(gson, datastore, req));
