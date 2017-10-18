@@ -1,5 +1,7 @@
-package org.mondora.qoodle;
+package org.mondora.qoodle.response.view;
 
+import org.mondora.qoodle.Insertable;
+import org.mondora.qoodle.QoodleElement;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
@@ -7,7 +9,7 @@ import org.mongodb.morphia.annotations.Id;
 import java.util.ArrayList;
 
 @Entity
-public class QoodleView extends Insertable{
+public class QoodleView extends Insertable {
 
     @Id
     private long qoodleViewId;

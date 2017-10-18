@@ -1,12 +1,13 @@
-package org.mondora.qoodle;
+package org.mondora.qoodle.response.list;
 import com.google.gson.annotations.SerializedName;
+import org.mondora.qoodle.Insertable;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 
 
 @Entity
-public class Qoodles extends Insertable{
+public class Qoodles extends Insertable {
 
 
     @Id

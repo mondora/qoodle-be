@@ -11,6 +11,8 @@ import org.mondora.qoodle.response.details.Details;
 import org.mondora.qoodle.response.details.DetailsResponse;
 import org.mondora.qoodle.response.list.ListResponse;
 import org.mondora.qoodle.response.auth.AuthResponse;
+import org.mondora.qoodle.response.list.Qoodles;
+import org.mondora.qoodle.response.view.QoodleView;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 
@@ -45,11 +47,11 @@ public class Main {
             final List<org.mondora.qoodle.Qoodle> qoodles = datastore.createQuery(org.mondora.qoodle.Qoodle.class).retrievedFields(true, "qoodleId", "title", "description", "closingDate", "voList", "backgroundImage", "owner").asList();
 
 
-            ArrayList<org.mondora.qoodle.Qoodles> qList = new ArrayList<>();
+            ArrayList<Qoodles> qList = new ArrayList<>();
 
             for (org.mondora.qoodle.Qoodle x : qoodles) {
                 qList.add(
-                        new org.mondora.qoodle.Qoodles
+                        new Qoodles
                                 (x.getqoodleId(),
                                         x.getTitle(),
                                         x.getDescription(),
@@ -122,8 +124,8 @@ public class Main {
             final org.mondora.qoodle.Qoodle targetQoodle = primaQuery.limit(1).get();
 
 
-            org.mondora.qoodle.QoodleView qView =
-                    new org.mondora.qoodle.QoodleView(
+            QoodleView qView =
+                    new QoodleView(
 
                             targetQoodle.getQoodleId(),
                             targetQoodle.getTitle(),
