@@ -6,6 +6,7 @@ import static spark.Spark.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mondora.qoodle.response.ListResponse;
 import org.mondora.qoodle.response.auth.AuthResponse;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
@@ -27,7 +28,6 @@ public class Main {
 
     public static boolean isLoggedIn(Request req) {
 
-        // System.out.println("QOESTA È LA REQUEWST la mail" + req.headers("email") + req.headers("id_token")  + "   " + req.headers("id_client"));
 
         String email = req.headers("email");
         AuthObject checkIdentity = new AuthObject(req.headers("id_client"), req.headers("id_token"));
@@ -280,8 +280,17 @@ public class Main {
             });
 
             //LIST -aut
-            get("/qoodles", (req, res) -> getList(datastore, gson, req));
-
+            get("/qoodles", (req, res) ->
+                    //getList(datastore, gson, req));
+            {
+                ListResponse listResponse = new ListResponse(getList(datastore, gson, req));
+                if (null != listResponse.list) {
+                    res.status(200);
+                } else {
+                    res.status(401);
+                }
+                return listResponse;
+            });
 
             //DETAILS -aut
             get("/details/:id", (req, res) -> getDetails(datastore, gson, req));

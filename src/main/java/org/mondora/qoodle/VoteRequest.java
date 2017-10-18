@@ -12,18 +12,6 @@ public class VoteRequest extends Vote{
     private long qoodleId;
 
 
-    public VoteRequest(long qoodleId, String userId, ArrayList<Integer> voti)
-    {
-        super(userId, voti);
-        this.qoodleId = qoodleId;
-    }
-
-
-    public VoteRequest(long qoodleId, String userId,  String realName,ArrayList<Integer> voti)
-    {
-        super(userId, realName, voti);
-        this.qoodleId = qoodleId;
-    }
 
 
     public long getQoodleId() {
