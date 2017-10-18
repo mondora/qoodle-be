@@ -13,6 +13,7 @@ import org.mondora.qoodle.response.list.ListResponse;
 import org.mondora.qoodle.response.auth.AuthResponse;
 import org.mondora.qoodle.response.list.Qoodles;
 import org.mondora.qoodle.response.view.QoodleView;
+import org.mondora.qoodle.response.view.ViewResponse;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 
@@ -20,6 +21,8 @@ import com.google.gson.Gson;
 import org.mongodb.morphia.query.UpdateOperations;
 import spark.Request;
 import spark.Response;
+
+import javax.swing.text.View;
 
 
 public class Main {
@@ -115,7 +118,7 @@ public class Main {
     }
 
 
-    private static String getQoodleView(Gson gson, Datastore datastore, Request req) {
+    private static String getQoodleView(Datastore datastore, Gson gson,Request req) {
 
         if (isLoggedIn(req)) {
             long id = Long.parseLong(req.params(":id"));
@@ -286,7 +289,6 @@ public class Main {
 
             //LIST -aut
             get("/qoodles", (req, res) ->
-                    //getList(datastore, gson, req));
             {
                 ListResponse listResponse = new ListResponse(getList(datastore, gson, req));
                 if (null != listResponse.list) {
@@ -299,7 +301,6 @@ public class Main {
 
             //DETAILS -aut
             get("/details/:id", (req, res) ->
-                    //getDetails(datastore, gson, req));
             {
                 DetailsResponse detailsResponse = new DetailsResponse(getDetails(datastore, gson, req));
                 if (null != detailsResponse.details) {
@@ -314,7 +315,17 @@ public class Main {
 
             //VIEW -aut
 
-            get("/qoodle/:id", (req, res) -> getQoodleView(gson, datastore, req));
+            get("/qoodle/:id", (req, res) ->// getQoodleView(gson, datastore, req));
+            {
+                ViewResponse viewResponse= new ViewResponse(getQoodleView(datastore, gson, req));
+                if (null != viewResponse.view) {
+                    res.status(200);
+                } else {
+                    res.status(401);
+                }
+                return viewResponse;
+            });
+
             //-aut
             post("/qoodle/:id", (req, res) -> submitVotes(datastore, gson, req, res));
 

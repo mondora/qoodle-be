@@ -13,7 +13,6 @@ public class ListResponse {
     public ArrayList<Qoodles> list;
 
     public ListResponse(String data) {
-        System.out.println("DATI IN ARRIVO:  " + data);
         Gson gson = new Gson();
         if(data != "ACCESSO VIETATO") {
             this.list = gson.fromJson(data, new TypeToken<List<Qoodles>>(){}.getType());
