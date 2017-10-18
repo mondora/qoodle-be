@@ -29,6 +29,16 @@ import javax.swing.text.View;
 public class Main {
 
 
+    private static void setResponseStatus(SubmitResponse submitResponse, Response res)
+    {
+        if (submitResponse.message.equals("OK")) {
+            res.status(200);
+        } else {
+            res.status(401);
+        }
+
+    }
+
     private static String showUserToken(Gson gson, Request req) {
         AuthObject recivedObject = gson.fromJson(req.body(), AuthObject.class);
 
@@ -323,11 +333,7 @@ public class Main {
             post("/qoodle/:id", (req, res) -> //submitVotes(datastore, gson, req));
             {
                 SubmitResponse submitResponse = new SubmitResponse(submitVotes(datastore, gson, req));
-                if (submitResponse.message.equals("OK")) {
-                    res.status(200);
-                } else {
-                    res.status(401);
-                }
+                setResponseStatus(submitResponse, res);
                 return submitResponse;
             });
 
@@ -336,11 +342,8 @@ public class Main {
             post("/qoodles", (req, res) ->
             {
                 SubmitResponse submitResponse = new SubmitResponse(saveQoodle("qoodleId", datastore, gson, req));
-                if (submitResponse.message.equals("OK")) {
-                    res.status(200);
-                } else {
-                    res.status(401);
-                }
+
+                setResponseStatus(submitResponse, res);
                 return submitResponse;
             });
 
