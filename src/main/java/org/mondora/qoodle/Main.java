@@ -6,7 +6,7 @@ import static spark.Spark.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.mondora.qoodle.response.ListResponse;
+import org.mondora.qoodle.response.list.ListResponse;
 import org.mondora.qoodle.response.auth.AuthResponse;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;

@@ -1,4 +1,4 @@
-package org.mondora.qoodle.response;
+package org.mondora.qoodle.response.list;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.mondora.qoodle.Qoodles;
