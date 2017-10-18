@@ -12,6 +12,7 @@ import org.mondora.qoodle.response.details.DetailsResponse;
 import org.mondora.qoodle.response.list.ListResponse;
 import org.mondora.qoodle.response.auth.AuthResponse;
 import org.mondora.qoodle.response.list.Qoodles;
+import org.mondora.qoodle.response.submit.SubmitResponse;
 import org.mondora.qoodle.response.view.QoodleView;
 import org.mondora.qoodle.response.view.ViewResponse;
 import org.mongodb.morphia.Datastore;
@@ -147,9 +148,8 @@ public class Main {
         }
     }
 
-    private static Response submitVotes(Datastore datastore, Gson gson, Request req, Response res) {
+    private static String submitVotes(Datastore datastore, Gson gson, Request req) {
 
-        try{
 
             if (isLoggedIn(req)) {
                 final org.mondora.qoodle.VoteRequest completeObject = gson.fromJson(req.body().toString(), org.mondora.qoodle.VoteRequest.class);
@@ -172,15 +172,14 @@ public class Main {
 
                 datastore.update(updateQuery, updateQoodleVote);
 
-                res.status(200);
-            } else {
-                res.status(401);
+                return "OK";
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            res.status(500);
-        }
-        return res;
+            else {
+                return "ACCESSO VIETATO";
+            }
+
+
+
     }
 
     private static Response saveQoodle(String targetId, Request req, Response res, Gson gson, Datastore datastore) {
@@ -327,7 +326,16 @@ public class Main {
             });
 
             //-aut
-            post("/qoodle/:id", (req, res) -> submitVotes(datastore, gson, req, res));
+            post("/qoodle/:id", (req, res) -> //submitVotes(datastore, gson, req));
+            {
+                SubmitResponse submitResponse = new SubmitResponse(submitVotes(datastore, gson, req));
+                if (submitResponse.message.equals("OK")) {
+                    res.status(200);
+                } else {
+                    res.status(401);
+                }
+                return submitResponse;
+            });
 
 
             //CREATE -aut
