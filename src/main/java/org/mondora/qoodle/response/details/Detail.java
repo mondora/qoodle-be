@@ -1,4 +1,6 @@
-package org.mondora.qoodle;
+package org.mondora.qoodle.response.details;
+
+import org.mondora.qoodle.SingleVote;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,4 @@
-package org.mondora.qoodle;
-
-import java.util.ArrayList;
+package org.mondora.qoodle.response.details;
 
 public class Details {
 

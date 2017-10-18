@@ -6,6 +6,9 @@ import static spark.Spark.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.mondora.qoodle.response.details.Detail;
+import org.mondora.qoodle.response.details.Details;
+import org.mondora.qoodle.response.details.DetailsResponse;
 import org.mondora.qoodle.response.list.ListResponse;
 import org.mondora.qoodle.response.auth.AuthResponse;
 import org.mongodb.morphia.Datastore;
@@ -33,6 +36,36 @@ public class Main {
         AuthObject checkIdentity = new AuthObject(req.headers("id_client"), req.headers("id_token"));
 
         return (checkIdentity.check(email));
+    }
+
+    private static String getList(Datastore datastore, Gson gson, Request req) {
+
+
+        if (isLoggedIn(req)) {
+            final List<org.mondora.qoodle.Qoodle> qoodles = datastore.createQuery(org.mondora.qoodle.Qoodle.class).retrievedFields(true, "qoodleId", "title", "description", "closingDate", "voList", "backgroundImage", "owner").asList();
+
+
+            ArrayList<org.mondora.qoodle.Qoodles> qList = new ArrayList<>();
+
+            for (org.mondora.qoodle.Qoodle x : qoodles) {
+                qList.add(
+                        new org.mondora.qoodle.Qoodles
+                                (x.getqoodleId(),
+                                        x.getTitle(),
+                                        x.getDescription(),
+                                        x.getVoList().size(),
+                                        x.getClosingDate(),
+                                        x.getBackgroundImage(),
+                                        x.getOwner())
+                );
+
+
+            }
+
+            return gson.toJson(qList);
+        } else {
+            return "ACCESSO VIETATO";
+        }
     }
 
 
@@ -79,36 +112,6 @@ public class Main {
 
     }
 
-
-    private static String getList(Datastore datastore, Gson gson, Request req) {
-
-
-        if (isLoggedIn(req)) {
-            final List<org.mondora.qoodle.Qoodle> qoodles = datastore.createQuery(org.mondora.qoodle.Qoodle.class).retrievedFields(true, "qoodleId", "title", "description", "closingDate", "voList", "backgroundImage", "owner").asList();
-
-
-            ArrayList<org.mondora.qoodle.Qoodles> qList = new ArrayList<>();
-
-            for (org.mondora.qoodle.Qoodle x : qoodles) {
-                qList.add(
-                        new org.mondora.qoodle.Qoodles
-                                (x.getqoodleId(),
-                                        x.getTitle(),
-                                        x.getDescription(),
-                                        x.getVoList().size(),
-                                        x.getClosingDate(),
-                                        x.getBackgroundImage(),
-                                        x.getOwner())
-                );
-
-
-            }
-
-            return gson.toJson(qList);
-        } else {
-            return "ACCESSO VIETATO";
-        }
-    }
 
     private static String getQoodleView(Gson gson, Datastore datastore, Request req) {
 
@@ -293,7 +296,17 @@ public class Main {
             });
 
             //DETAILS -aut
-            get("/details/:id", (req, res) -> getDetails(datastore, gson, req));
+            get("/details/:id", (req, res) ->
+                    //getDetails(datastore, gson, req));
+            {
+                DetailsResponse detailsResponse = new DetailsResponse(getDetails(datastore, gson, req));
+                if (null != detailsResponse.details) {
+                    res.status(200);
+                } else {
+                    res.status(401);
+                }
+                return detailsResponse;
+            });
 
 
 
