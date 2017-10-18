@@ -182,24 +182,18 @@ public class Main {
 
     }
 
-    private static Response saveQoodle(String targetId, Request req, Response res, Gson gson, Datastore datastore) {
+    private static String saveQoodle(String targetId, Datastore datastore, Gson gson, Request req) {
 
-        try {
+
             if (isLoggedIn(req)) {
                 final org.mondora.qoodle.Qoodle primoQoodle = gson.fromJson(req.body().toString(), org.mondora.qoodle.Qoodle.class);
-
                 primoQoodle.insert(targetId, datastore);
-                res.status(200);
+                return "OK";
+
             } else {
-
-                res.status(401);
+                return "ACCESSO VIETATO";
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            res.status(500);
-        }
 
-        return res;
 
 
     }
@@ -339,7 +333,16 @@ public class Main {
 
 
             //CREATE -aut
-            post("/qoodles", (req, res) -> saveQoodle("qoodleId", req, res, gson, datastore));
+            post("/qoodles", (req, res) ->
+            {
+                SubmitResponse submitResponse = new SubmitResponse(saveQoodle("qoodleId", datastore, gson, req));
+                if (submitResponse.message.equals("OK")) {
+                    res.status(200);
+                } else {
+                    res.status(401);
+                }
+                return submitResponse;
+            });
 
             //DELETE
             delete("/qoodle/:id", (req, res) -> deleteQoodle(res, req, gson, datastore));

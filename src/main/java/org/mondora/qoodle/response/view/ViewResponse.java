@@ -7,7 +7,7 @@ public class ViewResponse {
     public QoodleView view;
 
     public ViewResponse(String token) {
-        if (token != "Invalid ID token.") {
+        if (token != "ACCESSO VIETATO") {
             this.view = Json.fromJson(token, QoodleView.class);
         }
     }
