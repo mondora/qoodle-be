@@ -13,6 +13,7 @@ import org.mondora.qoodle.response.list.ListResponse;
 import org.mondora.qoodle.response.auth.AuthResponse;
 import org.mondora.qoodle.response.list.Qoodles;
 import org.mondora.qoodle.response.submit.SubmitResponse;
+import org.mondora.qoodle.response.view.ElementResponse;
 import org.mondora.qoodle.response.view.QoodleView;
 import org.mondora.qoodle.response.view.ViewResponse;
 import org.mongodb.morphia.Datastore;
@@ -229,25 +230,21 @@ public class Main {
 
     }
 
-    private static String getQoodleElements(Gson gson, Datastore datastore, Request req) {
+    private static String getQoodleElements(Request req, Gson gson, Datastore datastore) {
+
         if (isLoggedIn(req)) {
             final org.mondora.qoodle.Qoodle templateExample = datastore.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", 99).retrievedFields(true, "qeList").get();
 
-            try {
 
                 return gson.toJson(
                         new ArrayList<>(
                                 templateExample.getQeList()
                         )
                 );
-            } catch (Exception e) {
-                return "[]";
-            }
         } else {
             return "ACCESSO VIETATO";
         }
     }
-
 
     public static void main(String[] args) {
         final String from = "http://qoodle.mondora.com";
@@ -347,7 +344,16 @@ public class Main {
             });
 
             //-aut
-            get("/create", (req, res) -> getQoodleElements(gson, datastore, req));
+            get("/create", (req, res) -> //getQoodleElements(gson, datastore, req));
+            {
+                ElementResponse elementResponse= new ElementResponse(getQoodleElements(req, gson, datastore));
+                if (elementResponse.elementList != null && elementResponse.elementList.size() > 0 ) {
+                    res.status(200);
+                } else {
+                    res.status(401);
+                }
+                return elementResponse;
+            });
 
         } catch (Exception ex) {
             ex.printStackTrace();
