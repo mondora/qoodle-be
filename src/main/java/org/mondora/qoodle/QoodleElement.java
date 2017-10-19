@@ -95,7 +95,6 @@ public class QoodleElement extends Insertable {
         this.name = name;
         this.min = min;
         this.max = max;
-        this.umoption = umoption;
         this.coinoption = coinoption;
         this.price = price;
         this.counter = counter;

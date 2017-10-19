@@ -23,8 +23,6 @@ import org.mongodb.morphia.query.UpdateOperations;
 import spark.Request;
 import spark.Response;
 
-import javax.swing.text.View;
-
 public class Main {
 
     private static void setResponseStatus(SubmitResponse submitResponse, Response res) {
