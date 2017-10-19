@@ -12,7 +12,7 @@ import org.mondora.qoodle.response.list.ListResponse;
 import org.mondora.qoodle.response.auth.AuthResponse;
 import org.mondora.qoodle.response.list.Qoodles;
 import org.mondora.qoodle.response.submit.SubmitResponse;
-import org.mondora.qoodle.response.view.ElementResponse;
+import org.mondora.qoodle.response.template.ElementResponse;
 import org.mondora.qoodle.response.view.QoodleView;
 import org.mondora.qoodle.response.view.ViewResponse;
 import org.mongodb.morphia.Datastore;

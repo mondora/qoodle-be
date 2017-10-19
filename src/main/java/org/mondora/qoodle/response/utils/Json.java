@@ -1,5 +1,7 @@
 package org.mondora.qoodle.response.utils;
 
+import java.util.ArrayList;
+import java.lang.reflect.Type;
 import com.google.gson.Gson;
 
 public class Json {
@@ -11,6 +13,11 @@ public class Json {
     }
 
     // inserire metodo fromJson per le liste!
+    public static <T> ArrayList<T> fromJson(String json, Type type)   
+    {
+        return gson.fromJson(json, type);
+    }
+    
 
     public static String toJson(Object object) {
         return gson.toJson(object);

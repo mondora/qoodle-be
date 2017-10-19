@@ -1,6 +1,5 @@
 package org.mondora.qoodle.response.list;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.mondora.qoodle.response.utils.Json;
 
@@ -13,10 +12,8 @@ public class ListResponse {
     public ArrayList<Qoodles> list;
 
     public ListResponse(String data) {
-        Gson gson = new Gson();
         if (data != "ACCESSO VIETATO") {
-            this.list = gson.fromJson(data, new TypeToken<List<Qoodles>>() {
-            }.getType());
+            this.list = Json.fromJson(data, new TypeToken<List<Qoodles>>() {}.getType());
         }
     }
 

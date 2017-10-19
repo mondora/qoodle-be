@@ -1,6 +1,5 @@
-package org.mondora.qoodle.response.view;
+package org.mondora.qoodle.response.template;
 
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.mondora.qoodle.QoodleElement;
 import org.mondora.qoodle.response.utils.Json;
@@ -13,11 +12,9 @@ public class ElementResponse {
     public ArrayList<QoodleElement> elementList;
 
     public ElementResponse(String data) {
-        Gson gson = new Gson();
 
         if (data != "ACCESSO VIETATO") {
-            this.elementList = new ArrayList<>(gson.fromJson(data, new TypeToken<List<QoodleElement>>() {
-            }.getType()));
+            this.elementList = new ArrayList<>(Json.fromJson(data, new TypeToken<List<QoodleElement>>() {}.getType()));
         } else {
             this.elementList = new ArrayList<>();
         }
