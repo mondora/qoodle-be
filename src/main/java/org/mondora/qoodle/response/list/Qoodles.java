@@ -1,17 +1,16 @@
 package org.mondora.qoodle.response.list;
+
 import com.google.gson.annotations.SerializedName;
 import org.mondora.qoodle.Insertable;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 
-
 @Entity
 public class Qoodles extends Insertable {
 
-
     @Id
-    private long qoodlesId ;
+    private long qoodlesId;
     private String title;
 
     private String description;
@@ -34,7 +33,7 @@ public class Qoodles extends Insertable {
 
     }
 
-    public Qoodles( String title, String description, int partecipants, String closingDate, String backgroundImage) {
+    public Qoodles(String title, String description, int partecipants, String closingDate, String backgroundImage) {
         this.qoodlesId = 0;
         this.title = title;
         this.description = description;
@@ -42,9 +41,6 @@ public class Qoodles extends Insertable {
         this.closingDate = closingDate;
         this.backgroundImage = backgroundImage;
     }
-
-
-
 
     public Qoodles(long qoodlesId, String title, String description, int partecipants, String closingDate, String backgroundImage, String owner) {
         this.qoodlesId = qoodlesId;
@@ -55,8 +51,6 @@ public class Qoodles extends Insertable {
         this.backgroundImage = backgroundImage;
         this.owner = owner;
     }
-
-
 
     public long getQoodlesId() {
         return qoodlesId;
@@ -106,25 +100,17 @@ public class Qoodles extends Insertable {
         this.owner = owner;
     }
 
-
     @Override
     public String toString() {
-        return "Qoodles{" +
-                "qoodlesId=" + qoodlesId +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", partecipants=" + partecipants +
-                ", closingDate='" + closingDate + '\'' +
-                ", backgroundImage='" + backgroundImage + '\'' +
-                ", owner='" + owner + '\'' +
-                '}';
+        return "Qoodles{" + "qoodlesId=" + qoodlesId + ", title='" + title + '\'' + ", description='" + description + '\'' + ", partecipants=" + partecipants + ", closingDate='"
+                + closingDate + '\'' + ", backgroundImage='" + backgroundImage + '\'' + ", owner='" + owner + '\'' + '}';
     }
 
     @Override
-    public void insert( String name, Datastore ds) {
+    public void insert(String name, Datastore ds) {
         long nuovoId = inserisci(name, ds);
-            this.setQoodlesId(nuovoId);
-            ds.save(this);
+        this.setQoodlesId(nuovoId);
+        ds.save(this);
 
     }
 }

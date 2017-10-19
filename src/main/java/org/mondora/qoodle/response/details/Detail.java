@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Detail {
 
-    private String what="";
+    private String what = "";
     private ArrayList<SingleVote> whos;
 
     public Detail() {
@@ -39,17 +39,12 @@ public class Detail {
         this.whos = whos;
     }
 
-    public void addWho(SingleVote who)
-    {
+    public void addWho(SingleVote who) {
         this.whos.add(who);
     }
 
-
     @Override
     public String toString() {
-        return "Detail{" +
-                "what='" + what + '\'' +
-                ", whos=" + whos +
-                '}';
+        return "Detail{" + "what='" + what + '\'' + ", whos=" + whos + '}';
     }
 }

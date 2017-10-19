@@ -2,7 +2,6 @@ package org.mondora.qoodle.response.utils;
 
 import com.google.gson.Gson;
 
-
 public class Json {
 
     private static Gson gson = new Gson();
@@ -11,8 +10,7 @@ public class Json {
         return gson.fromJson(json, type);
     }
 
-    //inserire metodo fromJson per le liste!
-
+    // inserire metodo fromJson per le liste!
 
     public static String toJson(Object object) {
         return gson.toJson(object);

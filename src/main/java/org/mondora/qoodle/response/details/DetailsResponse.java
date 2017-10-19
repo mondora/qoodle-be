@@ -4,8 +4,6 @@ import org.mondora.qoodle.response.utils.Json;
 
 public class DetailsResponse {
 
-
-
     public Details details;
 
     public DetailsResponse(String token) {
@@ -19,4 +17,3 @@ public class DetailsResponse {
         return Json.toJson(this.details);
     }
 }
-

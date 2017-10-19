@@ -19,7 +19,6 @@ public class Inizialization {
         this.head = head;
     }
 
-
     public String getFrom() {
         return from;
     }
@@ -44,7 +43,6 @@ public class Inizialization {
         this.head = head;
     }
 
-
     protected void enableCORS() {
 
         options("/*", (request, response) -> {
@@ -63,7 +61,7 @@ public class Inizialization {
         });
 
         before((request, response) -> {
-            if(request.url().contains("localhost"))
+            if (request.url().contains("localhost"))
                 response.header("Access-Control-Allow-Origin", "http://localhost:3000");
             else
                 response.header("Access-Control-Allow-Origin", this.from);
@@ -73,17 +71,12 @@ public class Inizialization {
         });
     }
 
-    protected Datastore createDatastore(String pack, String dbName)
-    {
+    protected Datastore createDatastore(String pack, String dbName) {
         final Morphia morphia = new Morphia();
         morphia.mapPackage(pack);
 
         return morphia.createDatastore(new MongoClient(), "morphia_example");
 
     }
-
-
-
-
 
 }

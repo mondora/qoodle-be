@@ -12,12 +12,11 @@ public class SingleVote {
         this.count = count;
     }
 
-    public SingleVote(String name, String realName,int count) {
+    public SingleVote(String name, String realName, int count) {
         this.name = name;
         this.realName = realName;
         this.count = count;
     }
-
 
     public String getName() {
         return name;
@@ -45,10 +44,6 @@ public class SingleVote {
 
     @Override
     public String toString() {
-        return "SingleVote{" +
-                "name='" + name + '\'' +
-                ", realName='" + realName + '\'' +
-                ", count=" + count +
-                '}';
+        return "SingleVote{" + "name='" + name + '\'' + ", realName='" + realName + '\'' + ", count=" + count + '}';
     }
 }

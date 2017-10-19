@@ -5,7 +5,7 @@ import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Id;
 
 @Entity
-public class QoodleElement extends Insertable{
+public class QoodleElement extends Insertable {
 
     @Id
     private long elId;
@@ -30,7 +30,6 @@ public class QoodleElement extends Insertable{
         this.img64 = "";
     }
 
-
     public QoodleElement(long elId, String name, String umoption, String coinoption, float price, int counter, String img64) {
         this.elId = elId;
         this.name = name;
@@ -40,7 +39,6 @@ public class QoodleElement extends Insertable{
         this.counter = counter;
         this.img64 = img64;
     }
-
 
     public QoodleElement(String name, String umoption, String coinoption, float price, int counter, String img64) {
         this.name = name;
@@ -70,7 +68,6 @@ public class QoodleElement extends Insertable{
         this.img64 = img64;
     }
 
-
     public QoodleElement(long elId, String name, int min, int max, String umoption, String coinoption, float price, int counter, String img64) {
         this.elId = elId;
         this.name = name;
@@ -93,6 +90,7 @@ public class QoodleElement extends Insertable{
         this.counter = counter;
         this.img64 = img64;
     }
+
     public QoodleElement(String name, int min, int max, String coinoption, float price, int counter, String img64) {
         this.name = name;
         this.min = min;
@@ -103,7 +101,6 @@ public class QoodleElement extends Insertable{
         this.counter = counter;
         this.img64 = img64;
     }
-
 
     public long getElId() {
         return elId;
@@ -177,28 +174,18 @@ public class QoodleElement extends Insertable{
         this.img64 = img64;
     }
 
-
     @Override
     public String toString() {
-        return "QoodleElement{" +
-                "elId=" + elId +
-                ", name='" + name + '\'' +
-                ", min=" + min +
-                ", max=" + max +
-                ", umoption='" + umoption + '\'' +
-                ", coinoption='" + coinoption + '\'' +
-                ", price=" + price +
-                ", counter=" + counter +
-                ", img64='" + img64 + '\'' +
-                '}';
+        return "QoodleElement{" + "elId=" + elId + ", name='" + name + '\'' + ", min=" + min + ", max=" + max + ", umoption='" + umoption + '\'' + ", coinoption='" + coinoption
+                + '\'' + ", price=" + price + ", counter=" + counter + ", img64='" + img64 + '\'' + '}';
     }
 
     @Override
-    public void insert( String name, Datastore ds) {
+    public void insert(String name, Datastore ds) {
 
         long nuovoId = this.inserisci(name, ds);
-            this.setElId(nuovoId);
-            ds.save(this);
+        this.setElId(nuovoId);
+        ds.save(this);
 
     }
 }

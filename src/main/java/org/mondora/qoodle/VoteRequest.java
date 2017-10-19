@@ -6,13 +6,10 @@ import org.mongodb.morphia.annotations.Entity;
 import java.util.ArrayList;
 
 @Entity
-public class VoteRequest extends Vote{
+public class VoteRequest extends Vote {
 
     @SerializedName("id")
     private long qoodleId;
-
-
-
 
     public long getQoodleId() {
         return qoodleId;

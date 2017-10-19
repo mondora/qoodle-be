@@ -2,12 +2,12 @@ package org.mondora.qoodle;
 
 public class UserInfo {
 
-    private String userId="";
-    private String name="";
-    private String email="";
-    private String pictureUrl="";
+    private String userId = "";
+    private String name = "";
+    private String email = "";
+    private String pictureUrl = "";
 
-    public UserInfo(String userId,String name, String email, String pictureUrl) {
+    public UserInfo(String userId, String name, String email, String pictureUrl) {
         this.userId = userId;
         this.name = name;
         this.email = email;

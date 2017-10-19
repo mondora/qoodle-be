@@ -7,7 +7,7 @@ import org.mongodb.morphia.annotations.Id;
 import java.util.ArrayList;
 
 @Entity
-public class Vote  {
+public class Vote {
     @Id
     @SerializedName("username")
     private String userId;
@@ -17,14 +17,13 @@ public class Vote  {
     @SerializedName("elements")
     private ArrayList<Integer> votes;
 
-
     public Vote(String userId, ArrayList<Integer> votes) {
         this.userId = userId;
         this.votes = votes;
         this.realName = "";
     }
 
-    public Vote(String userId,  String realName, ArrayList<Integer> votes) {
+    public Vote(String userId, String realName, ArrayList<Integer> votes) {
         this.userId = userId;
         this.votes = votes;
         this.realName = realName;
@@ -33,7 +32,7 @@ public class Vote  {
     public Vote() {
         this.userId = "";
         this.votes = new ArrayList<>();
-        votes.add ( -1);
+        votes.add(-1);
     }
 
     public String getUserId() {
@@ -62,19 +61,15 @@ public class Vote  {
 
     @Override
     public String toString() {
-        return "Vote{" +
-                "userId='" + userId + '\'' +
-                ", votes=" + votes +
-                ", realName='" + realName + '\'' +
-                '}';
+        return "Vote{" + "userId='" + userId + '\'' + ", votes=" + votes + ", realName='" + realName + '\'' + '}';
     }
 
-    @Override//ok
+    @Override // ok
     public boolean equals(Object o) {
         boolean test = false;
-        if(o instanceof Vote) {
+        if (o instanceof Vote) {
             Vote v = (Vote) o;
-            test = ( v.getUserId().equals(this.getUserId())  && v.getRealName().equals(this.getRealName())  );
+            test = (v.getUserId().equals(this.getUserId()) && v.getRealName().equals(this.getRealName()));
         }
         return test;
     }

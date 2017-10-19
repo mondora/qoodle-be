@@ -1,4 +1,5 @@
 package org.mondora.qoodle;
+
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
@@ -8,7 +9,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Collections;
 
-
 public class AuthObject {
 
     @SerializedName("id_client")
@@ -16,6 +16,7 @@ public class AuthObject {
 
     @SerializedName("id_token")
     private String id_token;
+
     public AuthObject() {
         id_client = "";
         id_token = "";
@@ -26,29 +27,21 @@ public class AuthObject {
         this.id_token = id_token;
     }
 
-
     public static GoogleIdTokenVerifier getGoogleIdTokenVerifier(String clientId) {
         NetHttpTransport transport = new NetHttpTransport();
         GsonFactory jsonFactory = new GsonFactory();
 
-        return new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
-                .setAudience(Collections.singletonList(clientId))
-                .build();
+        return new GoogleIdTokenVerifier.Builder(transport, jsonFactory).setAudience(Collections.singletonList(clientId)).build();
     }
 
-
     public String verify(Gson gson) {
-
 
         GoogleIdTokenVerifier verifier = getGoogleIdTokenVerifier(this.getId_client());
 
         String risposta = "";
 
-
         try {
             GoogleIdToken idToken = verifier.verify(this.getId_token());
-
-
 
             if (idToken != null) {
                 GoogleIdToken.Payload payload = idToken.getPayload();
@@ -58,26 +51,20 @@ public class AuthObject {
                 String pictureUrl = (String) payload.get("picture");
                 String name = (String) payload.get("name");
 
-
                 UserInfo user = new UserInfo(userId, name, email, pictureUrl);
 
                 risposta = gson.toJson(user);
-
 
             } else {
                 risposta = "Invalid ID token.";
             }
 
-
-
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             risposta = "Invalid ID token.";
         }
         return risposta;
     }
-
 
     public boolean check(String email) {
 
@@ -85,38 +72,24 @@ public class AuthObject {
 
         boolean risposta;
 
-
-
         try {
             GoogleIdToken idToken = verifier.verify(this.id_token);
 
-            if (idToken != null && ( email.contains("carlo.m.porelli@gm") || email.contains("@mondora.com")  || email.contains("42@") )) {
-                risposta =  true;
-                //System.out.println("email autorizzata");
-
+            if (idToken != null && (email.contains("carlo.m.porelli@gm") || email.contains("@mondora.com") || email.contains("42@"))) {
+                risposta = true;
+                // System.out.println("email autorizzata");
 
             } else {
                 risposta = false;
             }
 
-
-
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             risposta = false;
         }
 
         return risposta;
     }
-
-
-
-
-
-
-
-
 
     public String getId_client() {
         return id_client;

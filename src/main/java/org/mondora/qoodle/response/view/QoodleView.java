@@ -46,10 +46,6 @@ public class QoodleView extends Insertable {
         this.type = "generic";
     }
 
-    
-
-
-
     public long getQoodleViewId() {
         return qoodleViewId;
     }

@@ -16,16 +16,16 @@ public class ElementResponse {
         Gson gson = new Gson();
 
         if (data != "ACCESSO VIETATO") {
-            this.elementList = new ArrayList<>(gson.fromJson(data, new TypeToken<List<QoodleElement>>(){}.getType()));
+            this.elementList = new ArrayList<>(gson.fromJson(data, new TypeToken<List<QoodleElement>>() {
+            }.getType()));
         } else {
             this.elementList = new ArrayList<>();
         }
     }
 
-        @Override
+    @Override
     public String toString() {
         return Json.toJson(this.elementList);
     }
-
 
 }

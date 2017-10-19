@@ -1,6 +1,5 @@
 package org.mondora.qoodle;
 
-
 import com.google.gson.annotations.SerializedName;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.annotations.Entity;
@@ -8,12 +7,11 @@ import org.mongodb.morphia.annotations.Id;
 
 import java.util.ArrayList;
 
-
 @Entity
 public class Qoodle extends org.mondora.qoodle.Insertable {
 
     @Id
-    private long qoodleId ;
+    private long qoodleId;
     @SerializedName("title")
     private String title = "";
 
@@ -38,7 +36,6 @@ public class Qoodle extends org.mondora.qoodle.Insertable {
     @SerializedName("owner")
     private String owner;
 
-
     public Qoodle(String title, String description, String d, ArrayList<org.mondora.qoodle.QoodleElement> qeList, String backgroundImage, String type, String owner) {
         this.qoodleId = 0L;
         this.title = title;
@@ -50,7 +47,7 @@ public class Qoodle extends org.mondora.qoodle.Insertable {
         this.owner = owner;
     }
 
-    public Qoodle(String title, String description, String d ) {
+    public Qoodle(String title, String description, String d) {
         this.qoodleId = 0L;
         this.title = title;
         this.description = description;
@@ -59,25 +56,22 @@ public class Qoodle extends org.mondora.qoodle.Insertable {
 
     }
 
-    public Qoodle(long qoodleId, String title, ArrayList<QoodleElement> qeList,  ArrayList<Vote> voList) {
+    public Qoodle(long qoodleId, String title, ArrayList<QoodleElement> qeList, ArrayList<Vote> voList) {
         this.qoodleId = qoodleId;
         this.title = title;
         this.qeList = qeList;
-        this.voList =voList;
+        this.voList = voList;
     }
 
-    public Qoodle(String s, long i )
-    {
+    public Qoodle(String s, long i) {
         this.title = s;
         this.qoodleId = i;
     }
 
-    public Qoodle()
-    {
+    public Qoodle() {
         this.title = "default value";
         this.qoodleId = 0;
     }
-
 
     public long getQoodleId() {
         return qoodleId;
@@ -91,11 +85,9 @@ public class Qoodle extends org.mondora.qoodle.Insertable {
         return qeList;
     }
 
-
     public String getClosingDate() {
         return closingDate;
     }
-
 
     public String getTitle() {
         return title;
@@ -113,7 +105,6 @@ public class Qoodle extends org.mondora.qoodle.Insertable {
         this.qoodleId = id;
     }
 
-
     public String getDescription() {
         return description;
     }
@@ -121,7 +112,6 @@ public class Qoodle extends org.mondora.qoodle.Insertable {
     public void setDescription(String description) {
         this.description = description;
     }
-
 
     public ArrayList<org.mondora.qoodle.Vote> getVoList() {
         return voList;
@@ -147,7 +137,6 @@ public class Qoodle extends org.mondora.qoodle.Insertable {
         this.type = type;
     }
 
-
     public String getOwner() {
         return owner;
     }
@@ -164,8 +153,7 @@ public class Qoodle extends org.mondora.qoodle.Insertable {
 
     }
 
-    public static void delete(long id, Datastore ds)
-    {
+    public static void delete(long id, Datastore ds) {
 
         ds.findAndDelete(ds.createQuery(org.mondora.qoodle.Qoodle.class).filter("qoodleId ==", id));
 
@@ -173,16 +161,7 @@ public class Qoodle extends org.mondora.qoodle.Insertable {
 
     @Override
     public String toString() {
-        return "Qoodle{" +
-                "qoodleId=" + qoodleId +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", closingDate='" + closingDate + '\'' +
-                ", qeList=" + qeList +
-                ", voList=" + voList +
-                ", backgroundImage='" + backgroundImage + '\'' +
-                ", type='" + type + '\'' +
-                ", owner='" + owner + '\'' +
-                '}';
+        return "Qoodle{" + "qoodleId=" + qoodleId + ", title='" + title + '\'' + ", description='" + description + '\'' + ", closingDate='" + closingDate + '\'' + ", qeList="
+                + qeList + ", voList=" + voList + ", backgroundImage='" + backgroundImage + '\'' + ", type='" + type + '\'' + ", owner='" + owner + '\'' + '}';
     }
 }

@@ -41,7 +41,4 @@ public class Counter {
         this.seq = seq;
     }
 
-
-
 }
-
