@@ -3,8 +3,6 @@ package org.mondora.qoodle;
 import com.google.gson.annotations.SerializedName;
 import org.mongodb.morphia.annotations.Entity;
 
-import java.util.ArrayList;
-
 @Entity
 public class VoteRequest extends Vote {
 
